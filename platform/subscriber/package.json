@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/evid3nt/System-For-Monitoring-Class-Attendance/issues"
   },
-  "homepage": "https://github.com/evid3nt/System-For-Monitoring-Class-Attendance#readme"
+  "homepage": "https://github.com/evid3nt/System-For-Monitoring-Class-Attendance#readme",
+  "dependencies": {
+    "mqtt": "^5.7.0"
+  }
 }

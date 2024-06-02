@@ -4,14 +4,17 @@ var client = mqtt.connect('mqtt://161.53.19.19:45883', {
 });
 
 client.on('connect', function () {
-    console.log('connected');
-    client.subscribe('classrooms/#');
-    // var requestId = 1;
-    // var request = {
-    //     "method": "getCurrentTime",
-    //     "params": {}
-    // };
-    // client.publish('v1/devices/me/rpc/request/' + requestId, JSON.stringify(request));
+    console.log("Connected!");
+    
+    client.subscribe("$share/group/v1/classrooms/a-201", { "$share/group/v1/classrooms/a-201": { qos: 1 } }, (err, granted) => {
+        if (!err) {
+            console.log("Subscribed!");
+            console.log(JSON.stringify(granted));
+        } else {
+            console.log("Error while subscribing:");
+            console.log(JSON.stringify(error));
+        }
+    });
 });
 
 client.on('message', function (topic, message) {
