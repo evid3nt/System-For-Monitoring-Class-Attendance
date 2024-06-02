@@ -3,10 +3,14 @@
 #include <PubSubClient.h>
 #include <WiFi.h>
 #include <ArduinoJson.h>
+#include <NTPClient.h>
+#include <WiFiUdp.h>
 #include "config.h"
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
+WiFiUDP ntpUDP;
+NTPClient timeClient(ntpUDP, "pool.ntp.org", CET_OFFSET, 60000);
 
 MFRC522 rfid(SS_PIN, RST_PIN);  // Instance of the class
 
@@ -38,10 +42,21 @@ void connectToMQTT(const char* clientId, const char* topic, int retryInterval, b
       Serial.println("Connected to MQTT!");
     } else {
       Serial.printf("Failed (status code = %d)\n", mqttClient.state());
-      Serial.printf("Try again in %d miliseconds.\n", retryInterval);
+      Serial.printf("Try again in %d milliseconds.\n", retryInterval);
       delay(retryInterval);
     }
   }
+}
+
+String nuidToString(byte *nuid) {
+  String nuidStr = "";
+  for (byte i = 0; i < 4; i++) {
+    nuidStr += String(nuid[i]);
+    if (i < 3) {
+      nuidStr += "-";
+    }
+  }
+  return nuidStr;
 }
 
 void setup() {
@@ -51,41 +66,43 @@ void setup() {
   }
   connectToWiFi(WIFI_SSID, WIFI_PASSWORD, WIFI_RETRY_INTERVAL, false);
 
-  //Setup MQTT
-  connectToMQTT(MQTT_CLIENT_ID, MQTT_CLASSROOM_TOPIC, MQTT_RETRY_INTERVAL, false);
+  // Setup MQTT
+  //mqttClient.setServer(MQTT_SERVER, MQTT_PORT);
+
+  //connectToMQTT(MQTT_CLIENT_ID, MQTT_CLASSROOM_TOPIC, MQTT_RETRY_INTERVAL, false);
 
   SPI.begin();  // Init SPI bus
-  //SPI.beginTransaction(SPISettings(1000000, MSBFIRST, SPI_MODE0));
   rfid.PCD_Init();  // Init MFRC522
-  //SPI.endTransaction();
 
   for (byte i = 0; i < 6; i++) {
     key.keyByte[i] = 0xFF;
   }
 
-  Serial.println(F("This code scan the MIFARE Classsic NUID."));
+  Serial.println(F("This code scan the MIFARE Classic NUID."));
   Serial.print(F("Using the following key:"));
   printHex(key.keyByte, MFRC522::MF_KEY_SIZE);
+
+  timeClient.begin();
 }
 
 void loop() {
 
-  //Check WiFi
+  timeClient.update();
+  // Check WiFi
   if (WiFi.status() != WL_CONNECTED) {
     connectToWiFi(WIFI_SSID, WIFI_PASSWORD, WIFI_RETRY_INTERVAL, true);
   }
 
-  //Check MQTT
-  if (!mqttClient.connected()) {
-    connectToMQTT(MQTT_CLIENT_ID, MQTT_CLASSROOM_TOPIC, MQTT_RETRY_INTERVAL, true);
-  }
+  // Check MQTT
+  // if (!mqttClient.connected()) {
+  //   connectToMQTT(MQTT_CLIENT_ID, MQTT_CLASSROOM_TOPIC, MQTT_RETRY_INTERVAL, true);
+  // }
 
-  //Copy example
   // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
   if (!rfid.PICC_IsNewCardPresent())
     return;
 
-  // Verify if the NUID has been readed
+  // Verify if the NUID has been read
   if (!rfid.PICC_ReadCardSerial())
     return;
 
@@ -93,30 +110,28 @@ void loop() {
   MFRC522::PICC_Type piccType = rfid.PICC_GetType(rfid.uid.sak);
   Serial.println(rfid.PICC_GetTypeName(piccType));
 
-  // Check is the PICC of Classic MIFARE type
+  // Check if the PICC is of Classic MIFARE type
   if (piccType != MFRC522::PICC_TYPE_MIFARE_MINI && piccType != MFRC522::PICC_TYPE_MIFARE_1K && piccType != MFRC522::PICC_TYPE_MIFARE_4K) {
     Serial.println(F("Your tag is not of type MIFARE Classic."));
     return;
   }
 
   if (rfid.uid.uidByte[0] != nuidPICC[0] || rfid.uid.uidByte[1] != nuidPICC[1] || rfid.uid.uidByte[2] != nuidPICC[2] || rfid.uid.uidByte[3] != nuidPICC[3]) {
-    StaticJsonBuffer<300> JSONbuffer;
-    JsonObject& JSONencoder = JSONbuffer.createObject();
+    String nuidStr = nuidToString(rfid.uid.uidByte);
+    unsigned long currentTime = timeClient.getEpochTime();
 
-    JSONencoder["device"] = "ESP32";
-    JSONencoder["sensorType"] = "Reader";
-    JsonArray& values = JSONencoder.createNestedArray("values");
+    StaticJsonDocument<300> JSONbuffer;
+    JsonObject JSONencoder = JSONbuffer.to<JsonObject>();
 
-    values.add(20);
-    values.add(21);
-    values.add(23);
+    JSONencoder["id"] = nuidStr;
+    JSONencoder["ts"] = currentTime;
 
-    char JSONmessageBuffer[100];
-    JSONencoder.printTo(JSONmessageBuffer, sizeof(JSONmessageBuffer));
+    char JSONmessageBuffer[300];
+    serializeJson(JSONencoder, JSONmessageBuffer);
     Serial.println("Sending message to MQTT topic..");
     Serial.println(JSONmessageBuffer);
 
-    if (mqttClient.publish(MQTT_CLASSROOM_TOPIC, JSONmessageBuffer) == true) {
+    if (mqttClient.publish(MQTT_CLASSROOM_TOPIC, JSONmessageBuffer)) {
       Serial.println("Success sending message");
     } else {
       Serial.println("Error sending message");
@@ -152,9 +167,6 @@ void printHex(byte* buffer, byte bufferSize) {
   }
 }
 
-/**
- * Helper routine to dump a byte array as dec values to Serial.
- */
 void printDec(byte* buffer, byte bufferSize) {
   for (byte i = 0; i < bufferSize; i++) {
     Serial.print(buffer[i] < 0x10 ? " 0" : " ");
