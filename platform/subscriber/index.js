@@ -1,12 +1,15 @@
 var mqtt = require('mqtt');
 var client = mqtt.connect('mqtt://161.53.19.19:45883', {
-    username: "SKc4D94R0BNwdazDAa2T"
+    username: process.env.MQTT_DEVICE_ACCESS_TOKEN ?? "h1kV2tjEkZ1zCdvJ54oQ"    // Device access token
 });
+
+// export MQTT_TELEMETRY_TOPIC=v1/buildings/d/classrooms/d2
+const topic = process.env.MQTT_TELEMETRY_TOPIC ?? "v1/buildings/a/classrooms/a102";
 
 client.on('connect', function () {
     console.log("Connected!");
     
-    client.subscribe("$share/group/v1/classrooms/a-201", { "$share/group/v1/classrooms/a-201": { qos: 1 } }, (err, granted) => {
+    client.subscribe(topic, { topic: { qos: 1 } }, (err, granted) => {
         if (!err) {
             console.log("Subscribed!");
             console.log(JSON.stringify(granted));
