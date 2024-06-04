@@ -1,5 +1,6 @@
 ﻿using be_evid3nt.Data;
 using be_evid3nt.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,6 +38,7 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpPost]
+        [Authorize(Policy = "TeacherOrAdmin")]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
             course.Id = Guid.NewGuid();
@@ -48,6 +50,7 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = "TeacherOrAdmin")]
         public async Task<IActionResult> PutCourse(Guid id, Course course)
         {
 
@@ -82,6 +85,7 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "TeacherOrAdmin")]
         public async Task<IActionResult> DeleteCourse(Guid id)
         {
             var course = await _context.Courses.FindAsync(id);
