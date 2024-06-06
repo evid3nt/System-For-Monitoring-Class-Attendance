@@ -1,0 +1,25 @@
+{
+  "name": "subscriber",
+  "version": "1.0.0",
+  "description": "MQTT subscriber",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evid3nt/System-For-Monitoring-Class-Attendance.git"
+  },
+  "keywords": [
+    "MQTT"
+  ],
+  "author": "EVID3NT",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/evid3nt/System-For-Monitoring-Class-Attendance/issues"
+  },
+  "homepage": "https://github.com/evid3nt/System-For-Monitoring-Class-Attendance#readme",
+  "dependencies": {
+    "mqtt": "^5.7.0"
+  }
+}
