@@ -1,0 +1,27 @@
+/* src/app/app.component.css */
+header {
+    background-color: #333; /* Boja pozadine headera */
+    padding: 10px 0; /* Vanjski prostor oko headera */
+  }
+  
+  nav ul {
+    list-style-type: none; /* Uklanja točkice iz liste */
+    margin: 0; /* Uklanja vanjski prostor oko liste */
+    padding: 0; /* Uklanja unutarnji prostor unutar liste */
+  }
+  
+  nav ul li {
+    display: inline; /* Stavlja stavke navigacije u red */
+  }
+  
+  nav ul li a {
+    color: #fff; /* Boja teksta linkova */
+    text-decoration: none; /* Uklanja podcrtavanje linkova */
+    padding: 10px 20px; /* Vanjski prostor unutar linkova */
+    display: inline-block; /* Stavlja linkove jedan pored drugog */
+  }
+  
+  nav ul li a:hover {
+    background-color: #555; /* Boja pozadine linkova prilikom prelaska mišem */
+  }
+  

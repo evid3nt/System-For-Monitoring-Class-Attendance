@@ -1,0 +1,36 @@
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; /* Širina forme */
+    padding: 30px; /* Prostor oko forme */
+    border: 2px solid #ccc; /* Rub oko forme */
+    border-radius: 10px; /* Zaobljeni rubovi */
+    background-color: #f9f9f9; /* Boja pozadine */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sjena */
+  }
+  
+  .container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container label,
+  .container input,
+  .container button,
+  .container p {
+    margin-bottom: 15px; /* Razmak između elemenata */
+  }
+  
+  .container button {
+    padding: 12px 24px; /* Veličina gumba */
+    font-size: 18px; /* Veličina fonta */
+    cursor: pointer;
+  }
+  
+  .error-message {
+    color: red; /* Boja poruke o grešci */
+    font-size: 16px; /* Veličina fonta poruke o grešci */
+  }
+  

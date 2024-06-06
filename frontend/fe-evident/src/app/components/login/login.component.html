@@ -1,0 +1,22 @@
+<div class="container">
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <label for="email">Email:</label>
+    <input type="email" formControlName="email" id="email">
+    <div *ngIf="loginForm.get('email').touched && loginForm.get('email').errors?.required && !loginForm.get('email').value" class="error-message">
+      Email is required.
+    </div>
+    <div *ngIf="loginForm?.get('email')?.errors?.email" class="error-message">
+      Please enter a valid email address.
+    </div>
+  
+    <label for="password" style="margin-top:10px">Password:</label>
+    <input type="password" formControlName="password" id="password">
+    <div *ngIf="loginForm.get('password').touched && loginForm.get('password').errors?.required && !loginForm.get('password').value" class="error-message">
+      Password is required.
+    </div>
+  
+    <p>If you're not registered, click <a routerLink="/register">here</a> to register.</p>
+
+    <button type="submit">Login</button>
+  </form>
+</div>

@@ -1,0 +1,35 @@
+.container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px; /* Povećaj širinu kontejnera */
+    padding: 30px; /* Povećaj razmak oko kontejnera */
+    border: 2px solid #ccc; /* Povećaj debljinu ruba oko kontejnera */
+    border-radius: 10px; /* Povećaj zaobljenost rubova kontejnera */
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .container select,
+  .container label,
+  .container input,
+  .container button,
+  .container p {
+    margin-bottom: 15px; /* Povećaj razmak između elemenata */
+  }
+  
+  .container button {
+    padding: 12px 24px; /* Povećaj veličinu gumba */
+    font-size: 18px; /* Povećaj veličinu fonta */
+  }
+  
+  .error-message {
+    font-size: 16px; /* Povećaj veličinu fonta poruke o grešci */
+  }
+  
