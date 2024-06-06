@@ -1,11 +1,14 @@
 ﻿using be_evid3nt.Data;
 using be_evid3nt.Models;
 using be_evid3nt.Models.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace be_evid3nt.Controllers
@@ -22,6 +25,7 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpGet]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
             return await _context.Users.ToListAsync();
@@ -47,7 +51,10 @@ namespace be_evid3nt.Controllers
             {
                 Id = Guid.NewGuid(),
                 FirstName = userDto.FirstName,
-                LastName = userDto.LastName
+                LastName = userDto.LastName,
+                Email = userDto.Email,
+                Password = HashPassword(userDto.Password),
+                CardId = userDto.CardId
             };
 
             if (Enum.TryParse<UserRole>(userDto.UserRole, true, out var userRole))
@@ -63,6 +70,23 @@ namespace be_evid3nt.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(LoginDTO loginDto)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == loginDto.Email);
+            if (user == null)
+            {
+                return Unauthorized("Invalid email or password.");
+            }
+
+            if (!VerifyPassword(loginDto.Password, user.Password))
+            {
+                return Unauthorized("Invalid email or password.");
+            }
+
+            return Ok(new { message = "Login successful", userId = user.Id });
         }
 
         [HttpPut("{id}")]
@@ -107,6 +131,7 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
@@ -124,6 +149,26 @@ namespace be_evid3nt.Controllers
         private bool UserExists(Guid id)
         {
             return _context.Users.Any(e => e.Id == id);
+        }
+
+        private string HashPassword(string password)
+        {
+            using (var sha256 = SHA256.Create())
+            {
+                byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+                foreach (var b in bytes)
+                {
+                    builder.Append(b.ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
+        private bool VerifyPassword(string password, string storedHash)
+        {
+            string hash = HashPassword(password);
+            return hash == storedHash;
         }
     }
 }
