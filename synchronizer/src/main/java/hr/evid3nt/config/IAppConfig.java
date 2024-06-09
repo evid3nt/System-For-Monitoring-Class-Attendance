@@ -14,5 +14,7 @@ public interface IAppConfig {
 
     // Application
     int poolSize();
+    String env();
+    String loggerConfig();
 
 }

@@ -40,3 +40,4 @@ build/
 ### Custom ###
 src/main/resources/app.properties
 src/main/resources/app-test.properties
+logs

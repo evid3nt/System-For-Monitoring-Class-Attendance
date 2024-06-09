@@ -1,30 +1,26 @@
 package hr.evid3nt;
 
-
 import hr.evid3nt.config.DefaultAppConfig;
 import hr.evid3nt.config.IAppConfig;
-
-import java.util.concurrent.Executors;
+import hr.evid3nt.synchronizer.Synchronizer;
 
 public class Main {
+
     public static void main(String[] args) {
-        System.out.println("Hello world!");
-    }
-}
+        // Config service
+        String appConfigFileName = args.length > 0 ? args[0] : "app.properties";
+        IAppConfig appConfig = configure(appConfigFileName);
 
-
-class Synchronizer {
-    private final IAppConfig appConfig = new DefaultAppConfig();
-
-    public void setup() {
-
+        // Create and run service
+        Synchronizer synchronizer = Synchronizer.of(appConfig);
+        synchronizer.setup();
+        synchronizer.loop();
     }
 
-    public void loop() {
-
+    private static IAppConfig configure(String configFileName) {
+        IAppConfig appConfig = new DefaultAppConfig(configFileName);
+        System.setProperty("log4j.configurationFile", appConfig.loggerConfig());
+        return appConfig;
     }
 
-    public static Synchronizer of() {
-        return null;
-    }
 }
