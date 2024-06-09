@@ -23,14 +23,9 @@ public class DefaultAppConfig implements IAppConfig {
         }
     }
 
-    private String formatString(String s) {
-        // Removes double quotes from the start and the end
-        return s.substring(1, s.length() - 1);
-    }
-
     @Override
     public String tbHost() {
-        return formatString(appProperties.getProperty("tb.host"));
+        return appProperties.getProperty("tb.host");
     }
 
     @Override
@@ -40,17 +35,27 @@ public class DefaultAppConfig implements IAppConfig {
 
     @Override
     public String tbUsername() {
-        return formatString(appProperties.getProperty("tb.username"));
+        return appProperties.getProperty("tb.username");
     }
 
     @Override
     public String tbPassword() {
-        return formatString(appProperties.getProperty("tb.password"));
+        return appProperties.getProperty("tb.password");
+    }
+
+    @Override
+    public int tbFetchPageSize() {
+        return Integer.parseInt(appProperties.getProperty("tb.devices.fetch.page-size"));
+    }
+
+    @Override
+    public String tbDeviceType() {
+        return appProperties.getProperty("tb.devices.device-type");
     }
 
     @Override
     public String dbHost() {
-        return formatString(appProperties.getProperty("db.host"));
+        return appProperties.getProperty("db.host");
     }
 
     @Override
@@ -60,7 +65,7 @@ public class DefaultAppConfig implements IAppConfig {
 
     @Override
     public String dbName() {
-        return formatString(appProperties.getProperty("db.name"));
+        return appProperties.getProperty("db.name");
     }
 
     @Override
@@ -70,11 +75,11 @@ public class DefaultAppConfig implements IAppConfig {
 
     @Override
     public String env() {
-        return formatString(appProperties.getProperty("app.env"));
+        return appProperties.getProperty("app.env");
     }
 
     @Override
     public String loggerConfig() {
-        return formatString(appProperties.getProperty("app.logger.config"));
+        return appProperties.getProperty("app.logger.config");
     }
 }

@@ -6,6 +6,8 @@ public interface IAppConfig {
     int tbPort();
     String tbUsername();
     String tbPassword();
+    int tbFetchPageSize();
+    String tbDeviceType();
 
     // Database
     String dbHost();
