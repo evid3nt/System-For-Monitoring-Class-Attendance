@@ -1,0 +1,78 @@
+/* Stilizacija za glavni naslov */
+h2 {
+    font-size: 28px; /* Povećaj veličinu glavnog naslova */
+    margin-bottom: 30px; /* Povećaj razmak ispod glavnog naslova */
+  }
+  
+  /* Stilizacija za formu */
+  .add-lecture-form {
+    margin-bottom: 30px; /* Povećaj razmak ispod forme */
+  }
+  
+  .form-group {
+    margin-bottom: 20px; /* Povećaj razmak između grupa formi */
+  }
+  
+  label {
+    font-weight: bold;
+    margin-right: 20px; /* Povećaj razmak s desne strane labela */
+  }
+  
+  /* Stilizacija za gumbi */
+  .btn-cancel,
+  .btn-save {
+    padding: 10px 20px; /* Povećaj veličinu gumba */
+    font-size: 16px; /* Povećaj veličinu teksta u gumbima */
+    border-radius: 5px; /* Zaobljeni rubovi za gumb */
+  }
+  
+  .btn-cancel {
+    background-color: #dc3545;
+    color: #fff;
+  }
+  
+  .btn-save {
+    background-color: #007bff;
+    color: #fff;
+    width:100px
+  }
+  
+  /* Stilizacija za kontejner */
+  .container {
+    margin: 30px; /* Povećaj vanjski razmak oko kontejnera */
+    padding: 30px; /* Povećaj unutarnji razmak unutar kontejnera */
+  }
+  
+  /* Stilizacija za poruke o grešci */
+  .error-message {
+    color: red;
+    font-size: 14px; /* Povećaj veličinu teksta poruke o grešci */
+    margin-bottom: 20px; /* Povećaj razmak ispod poruke o grešci */
+  }
+  
+  /* Prilagodba stilizacije za select liste */
+  select.form-control {
+    width: 100%; /* Puno širina select liste */
+    padding: 10px; /* Povećaj padding unutar select liste */
+    font-size: 16px; /* Povećaj veličinu teksta u select listi */
+    border: 1px solid #ccc; /* Dodaj tanku liniju oko select liste */
+    border-radius: 5px; /* Zaobljeni rubovi za select listu */
+    background-color: #fff; /* Bijela pozadina */
+    color: #000; /* Crna boja teksta */
+  }
+  
+.form-control{
+    width: 93%; /* Puno širina select liste */
+    padding: 10px; /* Povećaj padding unutar select liste */
+    font-size: 16px; /* Povećaj veličinu teksta u select listi */
+    border: 1px solid #ccc; /* Dodaj tanku liniju oko select liste */
+    border-radius: 5px; /* Zaobljeni rubovi za select listu */
+    background-color: #fff; /* Bijela pozadina */
+    color: #000; /* Crna boja teksta */
+}
+
+  /* Stilizacija za opcije u select listi */
+  select.form-control option {
+    padding: 10px; /* Povećaj padding za opcije */
+  }
+  

@@ -1,0 +1,43 @@
+<div class="container">
+    <h2>Add Lecture</h2>
+      <form [formGroup]="lectureForm" class="add-lecture-form">
+        <div class="form-group">
+          <label for="lectureStart">Lecture start:</label>
+          <input type="time" formControlName="lectureStart" id="lectureStart"  class="form-control" required>
+          <div *ngIf="lectureForm.get('lectureStart')?.touched && lectureForm.get('lectureStart')?.errors?.['required']" class="error-message">
+            Lecture Start is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="lectureEnd">Lecture end:</label>
+          <input type="time" formControlName="lectureEnd" id="lectureEnd"  class="form-control" required>
+          <div *ngIf="lectureForm.get('lectureEnd')?.touched && lectureForm.get('lectureEnd')?.errors?.['required']" class="error-message">
+            Lecture End is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="courseId" style="margin-bottom:10px">Course:</label>
+          <select formControlName="courseId" id="courseId" class="form-control" required>
+            <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
+          </select>
+          <div *ngIf="lectureForm.get('courseId')?.touched && lectureForm.get('courseId')?.errors?.['required']" class="error-message">
+           Course is required.
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="classroomId" style="margin-bottom:10px">Classroom:</label>
+          <select formControlName="classroomId" id="classroomId" class="form-control" required>
+            <option *ngFor="let classroom of classrooms" [value]="classroom">{{ classroom }}</option>
+          </select>
+          <div *ngIf="lectureForm.get('classroomId')?.touched && lectureForm.get('classroomId')?.errors?.['required']" class="error-message">
+            Course is required.
+           </div>
+        </div>
+      </form>
+      <div>
+        <button class="btn-cancel" (click)="onCancel()" style="margin-right: 100px;">Cancel</button>
+        <button class="btn-save" (click)="onSave()">Save</button>
+    </div>
+    </div>
+  
+  
