@@ -1,0 +1,199 @@
+/* Container za kalendar i događaje */
+.calendar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 20px;
+    height: 10vh; /* Visina kontejnera za kalendar i događaje */
+  }
+  
+  /* Wrapper za kalendar */
+  .calendar-wrapper {
+    flex: 3; /* Kalendar zauzima 3/4 prostora */
+    margin-right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sjena za bolji izgled */
+    overflow: auto;
+  }
+
+ /* Container za kalendar i događaje */
+.calendar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 20px;
+    height: 80vh; /* Visina kontejnera za kalendar i događaje */
+  }
+  
+  /* Wrapper za kalendar */
+  .calendar-wrapper {
+    flex: 3; /* Kalendar zauzima 3/4 prostora */
+    margin-right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sjena za bolji izgled */
+    height: 100%; /* Ispuni cijeli prostor roditelja */
+    overflow: auto;
+  }
+
+  /* Stilizacija kalendarskih ćelija */
+  .mat-calendar-body .mat-calendar-body-cell {
+    padding: 0; /* Ukloni padding */
+    margin: 0; /* Ukloni margin */
+    width: 100%; /* Ispuni cijelu ćeliju */
+    height: 100%; /* Ispuni cijelu ćeliju */
+    box-sizing: border-box; /* Uključi padding i border u dimenzije */
+  }
+  
+  .mat-calendar-body .mat-calendar-body-cell-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.75rem; /* Smanji veličinu fonta */
+    width: 100%; /* Ispuni cijelu ćeliju */
+    height: 100%; /* Ispuni cijelu ćeliju */
+    box-sizing: border-box; /* Uključi padding i border u dimenzije */
+  }
+  
+  /* Dodatni stilovi za bolju vidljivost */
+  .mat-calendar-body-cell-content {
+    padding: 2px; /* Ograniči padding */
+    margin: auto; /* Centriraj ćeliju */
+    height: 2rem; /* Visina ćelije */
+    width: 2rem; /* Širina ćelije */
+    border-radius: 50%; /* Zaokruži ćelije */
+  }
+  
+  /* Stilizacija za karticu s događajima */
+  .events-container {
+    flex: 1; /* Lista događaja zauzima 1/4 prostora */
+    overflow-y: auto; /* Omogući scroll ako ima puno događaja */
+    max-height: 80vh; /* Ograniči visinu kako bi odgovaralo kontejneru */
+  }
+  
+  /* Kartica s događajima */
+  mat-card {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Odmak između kartica */
+  }
+  
+  /* Kartica naslova */
+  mat-card-title {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  /* Kartica sadržaja */
+  mat-card-content {
+    padding: 20px;
+  }
+  
+  /* Stilizacija događaja */
+  .event-title {
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #007bff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin-top: 4px;
+  }
+  
+  /* Stilizacija događaja u kalendaru */
+  .example-event {
+    background-color: #ffd700; /* Boja za event */
+    border-radius: 50%;
+    display: inline-block;
+    width: 1.5rem; /* Veličina event markera */
+    height: 1.5rem; /* Veličina event markera */
+    line-height: 1.5rem; /* Centriraj tekst vertikalno */
+    text-align: center; /* Centriraj tekst horizontalno */
+    color: white;
+    font-size: 0.75rem; /* Smanji font za bolji izgled */
+  }
+  
+  
+  /* Stilizacija za karticu s događajima */
+  .events-container {
+    flex: 1; /* Lista događaja zauzima 1/4 prostora */
+    overflow-y: auto; /* Omogući scroll ako ima puno događaja */
+    max-height: 80vh; /* Ograniči visinu kako bi odgovaralo kontejneru */
+  }
+  
+  /* Kartica s događajima */
+  mat-card {
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px; /* Odmak između kartica */
+  }
+  
+  /* Kartica naslova */
+  mat-card-title {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+  
+  /* Kartica sadržaja */
+  mat-card-content {
+    padding: 20px;
+  }
+  
+  /* Stilizacija događaja */
+  .event-title {
+    font-size: 0.9rem;
+    color: #fff;
+    background-color: #007bff;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin-top: 4px;
+  }
+  
+  /* Stilizacija događaja u kalendaru */
+  .example-event {
+    background-color: #ffd700; /* Boja za event */
+    border-radius: 50%;
+    display: inline-block;
+    width: 1.5rem; /* Veličina event markera */
+    height: 1.5rem; /* Veličina event markera */
+    line-height: 1.5rem; /* Centriraj tekst vertikalno */
+    text-align: center; /* Centriraj tekst horizontalno */
+    color: white;
+    font-size: 0.75rem; /* Smanji font za bolji izgled */
+  }
+    .add-lecture-button {
+      background-color: transparent;
+      color: black; /* Button text color */
+    }
+    
+    .title-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .delete-button {
+      background-color: #f44336; /* Crvena boja */
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    
+    .delete-button:hover {
+      background-color: #d32f2f; /* Tamnocrvena boja na hover */
+    }
+    

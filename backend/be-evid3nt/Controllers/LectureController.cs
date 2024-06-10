@@ -21,6 +21,7 @@ namespace be_evid3nt.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Lecture>>> GetLectures()
         {
+            // dodati filtriranje za lectures po useru
             return await _context.Lectures.ToListAsync();
         }
 
@@ -36,6 +37,36 @@ namespace be_evid3nt.Controllers
 
             return lecture;
         }
+
+        [HttpGet("current/{userId}")]
+        public async Task<ActionResult<IEnumerable<Lecture>>> GetLecturesForUser(Guid userId)
+        {
+            // Pronađi sve userCourses za određenog korisnika
+            var userCourses = await _context.UsersCourses
+                .Where(uc => uc.UserId == userId)
+                .ToListAsync();
+
+            if (userCourses == null || !userCourses.Any())
+            {
+                return NotFound("No userCourses found for the specified user.");
+            }
+
+            // Dohvati sve courseIds za korisnika
+            var courseIds = userCourses.Select(uc => uc.CourseId).ToList();
+
+            // Pronađi sve lekcije (lectures) koje pripadaju pronađenim courseIds
+            var lectures = await _context.Lectures
+                .Where(l => courseIds.Contains(l.CourseId))
+                .ToListAsync();
+
+            if (lectures == null || !lectures.Any())
+            {
+                return NotFound("No lectures found for the specified user.");
+            }
+
+            return lectures;
+        }
+
 
         [HttpPost]
         [Authorize(Policy = "TeacherOrAdmin")]
