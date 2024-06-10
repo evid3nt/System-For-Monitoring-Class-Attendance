@@ -12,9 +12,11 @@ public class Main {
         IAppConfig appConfig = configure(appConfigFileName);
 
         // Create and run service
-        Synchronizer synchronizer = Synchronizer.of(appConfig);
-        synchronizer.setup();
-        synchronizer.loop();
+        try (Synchronizer synchronizer = Synchronizer.of(appConfig)) {
+            synchronizer.setup();
+            synchronizer.loop();
+        } catch (Exception ignore) {
+        }
     }
 
     private static IAppConfig configure(String configFileName) {
