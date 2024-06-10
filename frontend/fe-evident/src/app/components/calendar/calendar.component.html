@@ -1,1 +1,40 @@
-<p>calendar works!</p>
+<mat-toolbar color="primary" style="margin-bottom:50px">
+    <span>Lecture scheduler</span>
+  </mat-toolbar>
+  
+  <div class="calendar-container">
+    <div class="calendar-wrapper">
+      <mat-calendar [selected]="selectedDate" (selectedChange)="dateSelected($event)">
+          <ng-container *ngFor="let event of events">
+            <div
+              matCalendarCell
+              *matCalendarCellDef="let date"
+              class="example-cell"
+              [class.example-selected]="date.getDate() === event.lectureStart?.getDate()"
+              [class.example-event]="date.getDate() === event.lectureStart?.getDate()"
+              [class.mat-calendar-body-disabled]="date.getMonth() !== events[0].lectureStart?.getMonth()"
+              [ngClass]="{'example-event': date.getDate() === event.lectureStart?.getDate()}"
+            >
+              {{ date.getDate() }}
+              <div *ngIf="date.getDate() === event.lectureStart?.getDate()" class="event-title">{{ event.course?.courseName }}</div>
+            </div>
+          </ng-container>
+      </mat-calendar>
+    </div>
+    <div class="events-container">
+      <mat-card *ngIf="selectedDate">
+        <mat-card-title>{{ selectedDate | date }} <button *ngIf="this.userData.userRole !== 0"mat-button class="add-lecture-button "(click)="openAddLectureDialog()">Dodaj predavanje</button>
+        </mat-card-title>
+        
+        <mat-card-content>
+          <div *ngFor="let event of events">
+            <div *ngIf="selectedDate.getDate() === event.lectureStart?.getDate()">
+              {{ event.course?.courseName }}
+            </div>
+            <button class="delete-button"(click)="event.id && deleteLecture(event.id)">Obriši</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+  

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -73,7 +74,7 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login(LoginDTO loginDto)
+        public async Task<ActionResult<User>> Login(LoginDTO loginDto)
         {
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Email == loginDto.Email);
             if (user == null)
@@ -86,7 +87,7 @@ namespace be_evid3nt.Controllers
                 return Unauthorized("Invalid email or password.");
             }
 
-            return Ok(new { message = "Login successful", userId = user.Id });
+            return user;
         }
 
         [HttpPut("{id}")]
@@ -128,6 +129,24 @@ namespace be_evid3nt.Controllers
             }
 
             return Ok(existingUser);
+        }
+
+        [HttpGet("current")]
+        public async Task<ActionResult<User>> GetCurrent()
+        {
+            var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FindAsync(Guid.Parse(userId));
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return user;
         }
 
         [HttpDelete("{id}")]

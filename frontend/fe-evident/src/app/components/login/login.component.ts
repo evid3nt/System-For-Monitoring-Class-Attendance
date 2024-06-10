@@ -4,6 +4,7 @@ import { AuthServiceService } from '../../services/auth-service.service';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { DataService } from '../../services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +15,14 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 })
 export class LoginComponent implements OnInit{
-  loginForm: FormGroup | undefined;
+  loginForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthServiceService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private dataService: DataService
   ) {
     this.loginForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
@@ -45,6 +47,7 @@ export class LoginComponent implements OnInit{
           this.snackBar.open('Login successful', 'Close', {
             duration: 3000, // trajanje obavijesti u milisekundama
           });
+          this.dataService.setUserData(response);
           this.router.navigate(['/calendar']);
           // Implementacija daljih koraka nakon uspesne prijave
         },

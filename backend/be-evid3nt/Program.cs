@@ -7,6 +7,14 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var connectionString = builder.Configuration.GetConnectionString("DbConnectionString");
+
+builder.Services.AddDbContext<MyDbContext>(options =>
+{
+    options.UseNpgsql(connectionString);
+});
+
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
@@ -33,8 +41,14 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-builder.Services.AddDbContext<MyDbContext>(options =>
-    options.UseInMemoryDatabase("InMemoryDb"));
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
+
 
 builder.Services.AddAuthentication("BasicAuthentication")
     .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
@@ -63,7 +77,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication(); 
 app.UseAuthorization();
-
+app.UseCors("AllowAll");
+app.UseCors("AllowOrigin");
 app.MapControllers();
 
 app.Run();

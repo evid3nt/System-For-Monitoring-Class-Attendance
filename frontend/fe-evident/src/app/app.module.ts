@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { AppComponent } from './app.component';
+import { CalendarModule } from 'angular-calendar';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AppComponent } from './app.component';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule, 
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    CalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

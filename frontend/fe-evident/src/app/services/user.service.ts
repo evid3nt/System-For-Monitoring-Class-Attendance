@@ -14,4 +14,8 @@ export class UserService {
   register(user: UserDTO): Observable<any> {
     return this.http.post<any>(this.apiUrl, user);
   }
+
+  getCurrentUser(): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/current`)
+  }
 }
