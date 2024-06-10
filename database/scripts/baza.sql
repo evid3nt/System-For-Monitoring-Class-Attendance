@@ -1,3 +1,5 @@
+START TRANSACTION;
+
 CREATE TABLE Classrooms (
     Id VARCHAR(36) PRIMARY KEY,
     ClassroomName VARCHAR(255)
@@ -44,4 +46,5 @@ CREATE TABLE Telemetrys (
     FOREIGN KEY (UserId) REFERENCES Users(Id),
     FOREIGN KEY (ClassroomId) REFERENCES Classroom(Id)
 );
-	
+
+COMMIT;
