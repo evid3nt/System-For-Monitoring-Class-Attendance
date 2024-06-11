@@ -16,6 +16,7 @@
         <log4j-api.version>2.23.1</log4j-api.version>
         <log4j-core.version>2.23.1</log4j-core.version>
         <rest-client.version>3.6.4</rest-client.version>
+        <postgresql.version>42.7.3</postgresql.version>
     </properties>
 
     <repositories>
@@ -46,6 +47,11 @@
             <groupId>org.thingsboard</groupId>
             <artifactId>rest-client</artifactId>
             <version>${rest-client.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
         </dependency>
 
     </dependencies>

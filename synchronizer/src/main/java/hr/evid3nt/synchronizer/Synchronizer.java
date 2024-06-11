@@ -1,6 +1,13 @@
 package hr.evid3nt.synchronizer;
 
 import hr.evid3nt.config.IAppConfig;
+import hr.evid3nt.dao.ClassroomsDAO;
+import hr.evid3nt.dao.TelemetrysDAO;
+import hr.evid3nt.dao.UsersDAO;
+import hr.evid3nt.db.DB;
+import hr.evid3nt.domain.Telemetry;
+import hr.evid3nt.dto.TelemetryDTO;
+import hr.evid3nt.util.Util;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.thingsboard.rest.client.RestClient;
@@ -10,12 +17,8 @@ import org.thingsboard.server.common.data.kv.TsKvEntry;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.Instant;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -32,6 +35,9 @@ public class Synchronizer implements Runnable, AutoCloseable {
 
     private Synchronizer(IAppConfig appConfig) {
         this.appConfig = appConfig;
+
+        // Config database
+        DB.of(appConfig);
 
         // Setup schedule service
         scheduleService = Executors.newSingleThreadScheduledExecutor();
@@ -55,9 +61,12 @@ public class Synchronizer implements Runnable, AutoCloseable {
         tbRestClient.login(appConfig.tbUsername(), appConfig.tbPassword());
         tbRestClient.getUser().ifPresent(user -> logger.debug(String.format("Current user: %s", user)));
 
-        getTenantDevices();
-
-        scheduleService.scheduleAtFixedRate(this, 0, 15, TimeUnit.SECONDS);
+        scheduleService.scheduleAtFixedRate(
+                this,
+                0,
+                appConfig.syncTaskRepeatInterval(),
+                TimeUnit.SECONDS
+        );
     }
 
     public void loop() {
@@ -76,6 +85,9 @@ public class Synchronizer implements Runnable, AutoCloseable {
     @Override
     public void run() {
         logger.info("Starting with telemetry synchronization...");
+
+        // Get actual devices
+        getTenantDevices();
 
         // Create tasks for each device
         for (Device device : deviceMap.values()) {
@@ -125,11 +137,11 @@ public class Synchronizer implements Runnable, AutoCloseable {
 
         @Override
         public void run() {
-            // TODO: Timezones! (hardcoded to +2)
-            long startTs = LocalDateTime.now().minusSeconds(15).toEpochSecond(ZoneOffset.ofHours(2)) * 1000;
-            long endTs = LocalDateTime.now().toEpochSecond(ZoneOffset.ofHours(2)) * 1000;
+            Instant now = Instant.now();
+            long startTs = now.minusSeconds(appConfig.syncTaskSyncInterval()).toEpochMilli();
+            long endTs = now.toEpochMilli();
 
-            List<TsKvEntry> telemetry = tbRestClient.getTimeseries(
+            List<TsKvEntry> timeseries = tbRestClient.getTimeseries(
                 device.getId(),
                 List.of("cardId", "classroom"),
                 null,
@@ -141,11 +153,42 @@ public class Synchronizer implements Runnable, AutoCloseable {
                 false
             );
 
-            if (!telemetry.isEmpty()) {
+            if (!timeseries.isEmpty()) {
                 logger.debug(String.format(
-                        "Device: %s. Received telemetry data: %s.",
-                        device.getName(), telemetry
+                        "Device: %s. Received timeseries data: %s.",
+                        device.getName(), timeseries
                 ));
+
+                Map<Long, TelemetryDTO> telemetryDTOMap = Util.createTelemetryDTOMapFromTimeseries(timeseries);
+
+                for (TelemetryDTO telemetryDTO : telemetryDTOMap.values()) {
+                    logger.debug("Starting with telemetry=" + telemetryDTO);
+                    try {
+                        // Get userId from card id
+                        UUID userId = Objects.requireNonNull(
+                                UsersDAO.getIdFromCardId(telemetryDTO.getCardId()),
+                                String.format("User with cardId=%s not found.", telemetryDTO.getCardId())
+                        );
+
+                        // Get classroomId from classroom name
+                        UUID classroomId = Objects.requireNonNull(
+                                ClassroomsDAO.getIdFromName(telemetryDTO.getClassroom()),
+                                String.format("Classroom with name=%s not found.", telemetryDTO.getClassroom())
+                        );
+
+                        // Save telemetry
+                        Telemetry telemetry = Telemetry.of(telemetryDTO.getScanTime(), userId, classroomId);
+                        TelemetrysDAO.insert(telemetry);
+                    } catch (NullPointerException exception) {
+                        logger.warn(String.format(
+                                "Skipping telemetry=%s; reason: %s", telemetryDTO, exception.getMessage()
+                        ));
+                    } catch (Exception exception) {
+                        logger.error(String.format(
+                                "Error while processing telemetry=%s: %s", telemetryDTO, exception.getMessage()
+                        ));
+                    }
+                }
             }
         }
     }

@@ -12,11 +12,16 @@ public interface IAppConfig {
     // Database
     String dbHost();
     int dbPort();
+    String dbUsername();
+    String dbPassword();
     String dbName();
 
     // Application
     int poolSize();
     String env();
     String loggerConfig();
+
+    int syncTaskRepeatInterval();
+    int syncTaskSyncInterval();
 
 }

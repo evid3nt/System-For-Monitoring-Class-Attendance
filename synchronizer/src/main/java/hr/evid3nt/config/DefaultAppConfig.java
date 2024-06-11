@@ -64,6 +64,15 @@ public class DefaultAppConfig implements IAppConfig {
     }
 
     @Override
+    public String dbUsername() {
+        return appProperties.getProperty("db.username");
+    }
+
+    public String dbPassword() {
+        return appProperties.getProperty("db.password");
+    }
+
+    @Override
     public String dbName() {
         return appProperties.getProperty("db.name");
     }
@@ -81,5 +90,15 @@ public class DefaultAppConfig implements IAppConfig {
     @Override
     public String loggerConfig() {
         return appProperties.getProperty("app.logger.config");
+    }
+
+    @Override
+    public int syncTaskRepeatInterval() {
+        return Integer.parseInt(appProperties.getProperty("app.sync-task.repeat-interval"));
+    }
+
+    @Override
+    public int syncTaskSyncInterval() {
+        return Integer.parseInt(appProperties.getProperty("app.sync-task.sync-interval"));
     }
 }
