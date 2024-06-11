@@ -1,50 +1,50 @@
 START TRANSACTION;
 
-CREATE TABLE Classrooms (
-    Id VARCHAR(36) PRIMARY KEY,
-    ClassroomName VARCHAR(255)
+CREATE TABLE "Classrooms" (
+    "Id" uuid NOT NULL,
+    "ClassroomName" text NULL,
+    CONSTRAINT "PK_Classrooms" PRIMARY KEY ("Id")
 );
 
-CREATE TABLE Courses (
-    Id VARCHAR(36) PRIMARY KEY,
-    CourseName VARCHAR(255)
+CREATE TABLE "Courses" (
+    "Id" uuid NOT NULL,
+    "CourseName" text NULL,
+    CONSTRAINT "PK_Courses" PRIMARY KEY ("Id")
 );
 
-CREATE TABLE Users (
-    Id VARCHAR(36) PRIMARY KEY,
-    FirstName VARCHAR(255),
-    LastName VARCHAR(255),
-    Email VARCHAR(255),
-    Password VARCHAR(255),
-    CardId VARCHAR(255),
-    UserRole INT
+CREATE TABLE "Lectures" (
+    "Id" uuid NOT NULL,
+    "LectureStart" timestamp with time zone NULL,
+    "LectureEnd" timestamp with time zone NULL,
+    "CourseId" uuid NULL,
+    "ClassroomId" uuid NULL,
+    CONSTRAINT "PK_Lectures" PRIMARY KEY ("Id")
 );
 
-CREATE TABLE UsersCourses (
-    Id VARCHAR(36) PRIMARY KEY,
-    UserId VARCHAR(36),
-    CourseId VARCHAR(36),
-    FOREIGN KEY (UserId) REFERENCES Users(Id),
-    FOREIGN KEY (CourseId) REFERENCES Course(Id)
+CREATE TABLE "Telemetrys" (
+    "Id" uuid NOT NULL,
+    "ScanTime" timestamp with time zone NULL,
+    "UserId" uuid NULL,
+    "ClassroomId" uuid NULL,
+    CONSTRAINT "PK_Telemetrys" PRIMARY KEY ("Id")
 );
 
-CREATE TABLE Lectures (
-    Id VARCHAR(36) PRIMARY KEY,
-    LectureStart TIMESTAMP,
-    LectureEnd TIMESTAMP,
-    CourseId VARCHAR(36),
-    ClassroomId VARCHAR(36),
-    FOREIGN KEY (CourseId) REFERENCES Course(Id),
-    FOREIGN KEY (ClassroomId) REFERENCES Classroom(Id)
+CREATE TABLE "Users" (
+    "Id" uuid NOT NULL,
+    "FirstName" text NULL,
+    "LastName" text NULL,
+    "Email" text NULL,
+    "Password" text NULL,
+    "CardId" text NULL,
+    "UserRole" integer NULL,
+    CONSTRAINT "PK_Users" PRIMARY KEY ("Id")
 );
 
-CREATE TABLE Telemetrys (
-    Id VARCHAR(36) PRIMARY KEY,
-    ScanTime TIMESTAMP,
-    UserId VARCHAR(36),
-    ClassroomId VARCHAR(36),
-    FOREIGN KEY (UserId) REFERENCES Users(Id),
-    FOREIGN KEY (ClassroomId) REFERENCES Classroom(Id)
+CREATE TABLE "UsersCourses" (
+    "Id" uuid NOT NULL,
+    "UserId" uuid NULL,
+    "CourseId" uuid NULL,
+    CONSTRAINT "PK_UsersCourses" PRIMARY KEY ("Id")
 );
 
 COMMIT;
