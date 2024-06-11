@@ -39,7 +39,6 @@ export class RegisterComponent {
         formValues.email,
         formValues.password
       );
-      console.log(user)
       this.userService.register(user).subscribe(
         (response: any) => {
           this.snackBar.open('User registered successfully', 'Close', {

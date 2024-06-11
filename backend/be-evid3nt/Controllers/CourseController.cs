@@ -11,9 +11,9 @@ namespace be_evid3nt.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly EvidentContext _context;
 
-        public CourseController(MyDbContext context)
+        public CourseController(EvidentContext context)
         {
             _context = context;
         }
@@ -38,7 +38,6 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpPost]
-        [Authorize(Policy = "TeacherOrAdmin")]
         public async Task<ActionResult<Course>> PostCourse(Course course)
         {
             course.Id = Guid.NewGuid();
@@ -50,7 +49,6 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Policy = "TeacherOrAdmin")]
         public async Task<IActionResult> PutCourse(Guid id, Course course)
         {
 
@@ -85,7 +83,6 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "TeacherOrAdmin")]
         public async Task<IActionResult> DeleteCourse(Guid id)
         {
             var course = await _context.Courses.FindAsync(id);

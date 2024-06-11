@@ -11,9 +11,9 @@ namespace be_evid3nt.Controllers
     [ApiController]
     public class LectureController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly EvidentContext _context;
 
-        public LectureController(MyDbContext context)
+        public LectureController(EvidentContext context)
         {
             _context = context;
         }
@@ -56,6 +56,8 @@ namespace be_evid3nt.Controllers
 
             // Pronađi sve lekcije (lectures) koje pripadaju pronađenim courseIds
             var lectures = await _context.Lectures
+                .Include(a => a.Classroom)
+                .Include(b => b.Course)
                 .Where(l => courseIds.Contains(l.CourseId))
                 .ToListAsync();
 
@@ -69,7 +71,6 @@ namespace be_evid3nt.Controllers
 
 
         [HttpPost]
-        [Authorize(Policy = "TeacherOrAdmin")]
         public async Task<ActionResult<Lecture>> PostLecture(Lecture lecture)
         {
             lecture.Id = Guid.NewGuid();
@@ -81,7 +82,6 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Policy = "TeacherOrAdmin")]
         public async Task<IActionResult> PutLecture(Guid id, Lecture lecture)
         {
             var existingLecture = await _context.Lectures.FindAsync(id);
@@ -127,19 +127,14 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "TeacherOrAdmin")]
-        public async Task<IActionResult> DeleteLecture(Guid id)
+        public async Task<Lecture> DeleteLecture(Guid id)
         {
             var lecture = await _context.Lectures.FindAsync(id);
-            if (lecture == null)
-            {
-                return NotFound();
-            }
-
+         
             _context.Lectures.Remove(lecture);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return lecture;
         }
 
         private bool LectureExists(Guid id)

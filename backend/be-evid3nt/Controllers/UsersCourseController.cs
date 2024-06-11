@@ -10,9 +10,9 @@ namespace be_evid3nt.Controllers
     [ApiController]
     public class UsersCourseController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly EvidentContext _context;
 
-        public UsersCourseController(MyDbContext context)
+        public UsersCourseController(EvidentContext context)
         {
             _context = context;
         }

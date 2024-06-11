@@ -18,9 +18,9 @@ namespace be_evid3nt.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly EvidentContext _context;
 
-        public UserController(MyDbContext context)
+        public UserController(EvidentContext context)
         {
             _context = context;
         }
@@ -150,7 +150,6 @@ namespace be_evid3nt.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
             var user = await _context.Users.FindAsync(id);

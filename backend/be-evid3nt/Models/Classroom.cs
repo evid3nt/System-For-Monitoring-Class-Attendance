@@ -1,11 +1,13 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace be_evid3nt.Models
 {
-    public class Classroom
+    public partial class Classroom
     {
-        [Key]
-        public Guid? Id { get; set; }
-        public string? ClassroomName { get; set; }
+      
+        public Guid Id { get; set; }
+        public string ClassroomName { get; set; } = null!;
+
     }
 }
