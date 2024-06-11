@@ -46,7 +46,7 @@ VALUES ('a847dbd0-f204-4130-986e-ef7b201483ff', '2024-05-10T18:02:00+02:00', 'e8
 INSERT INTO "Telemetrys" ("Id", "ScanTime", "UserId", "ClassroomId")
 VALUES ('f46bf335-4905-4e8a-bb53-7cb47d08a701', '2024-05-10T16:23:00+02:00', 'ddb51885-0fef-4ca9-b920-2c96c60ed0ec', '247b7755-d218-4599-9f38-33f5cf7f60bb');
 INSERT INTO "Telemetrys" ("Id", "ScanTime", "UserId", "ClassroomId")
-VALUES ('4931e5a7-0e1d-4404-910b-2718e6158ab3', '2024-05-10T16:23:00+02:00', 'ddb51885-0fef-4ca9-b920-2c96c60ed0ec', '247b7755-d218-4599-9f38-33f5cf7f60bb');
+VALUES ('4931e5a7-0e1d-4404-910b-2718e6158ab3', '2024-05-10T17:58:00+02:00', 'ddb51885-0fef-4ca9-b920-2c96c60ed0ec', '247b7755-d218-4599-9f38-33f5cf7f60bb');
 
 INSERT INTO "UsersCourses" ("Id", "UserId", "CourseId")
 VALUES ('3b81ecb9-64f6-4e6c-8cfd-314d9b68014c', 'e8a2ed0b-9e38-4ffe-b6fc-8465e3a61e7a', '9e8cdbcb-25fe-49a5-8279-ae277d4dd969');
