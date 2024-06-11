@@ -9,6 +9,7 @@ broker_ip = "161.53.19.19"
 port = 45883
 client_ids = {"b1":"ef92b500-21d3-11ef-a963-a37ba3a57ce2", "a102":"fe545350-21d3-11ef-a963-a37ba3a57ce2", "d2":"0cb88f60-21d4-11ef-a963-a37ba3a57ce2"}
 access_tokens = {"b1":"rhXxYKw6T1tKhAokpnYP", "a102":"KtR42P6B9CFYyjm0fBVj", "d2":"bVRwToprDLBcE2hwU1PU"}
+card_ids = ["10-10-10-10", "20-20-20-20", "243-2-104-173", "42-58-6-176", "100-29-217-181"]
 
 
 def connect_to_MQTT(classroom):
@@ -20,9 +21,9 @@ def connect_to_MQTT(classroom):
 
 def simulate_scan(client, classroom):
     payload = {}
-    payload["cardId"] = "-".join([str(random.randint(0, 255)) for i in range(4)])
+    payload["cardId"] = random.choice(card_ids)
     payload["classroom"] = classroom
-    payload["scanTime"] = int(time.time() * 1000)
+    #payload["scanTime"] = int(time.time() * 1000)
     payload_json = json.dumps(payload)
 
     topic = f"v1/buildings/{classroom[0]}/classrooms/{classroom}"
