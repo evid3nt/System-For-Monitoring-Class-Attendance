@@ -4,6 +4,10 @@ mat-calendar {
   transform-origin: top left; /* Postavlja točku skaliranja */
 }
 
+.table-container {
+  margin: 20px;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
 .calendar-container {
   display: flex;
   justify-content: space-between;

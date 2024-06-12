@@ -9,11 +9,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { UserDTO } from '../../models/user.model';
 import { LectureDTO } from '../../models/lecture.model';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-attendance',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatIconModule],
+  imports: [CommonModule, MatToolbarModule, MatIconModule, MatCardModule],
   templateUrl: './attendance.component.html',
   styleUrl: './attendance.component.css'
 })
@@ -41,6 +42,8 @@ export class AttendanceComponent {
   }
 
   loadEvents(id:string, role:number) {
+
+    // Ako se radi o profesoru: this.lectureService.getLecturesForUser(dropdown_value)...
     this.lectureService.getLecturesForUser(this.userData.id).subscribe((events) => {
       this.events=events
     });
