@@ -1,4 +1,5 @@
 ﻿using be_evid3nt.Data;
+using be_evid3nt.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -16,14 +17,14 @@ namespace be_evid3nt.AuthenticationHandler
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
-        private readonly MyDbContext _context;
+        private readonly EvidentContext _context;
 
         public BasicAuthenticationHandler(
             IOptionsMonitor<AuthenticationSchemeOptions> options,
             ILoggerFactory logger,
             UrlEncoder encoder,
             ISystemClock clock,
-            MyDbContext context)
+            EvidentContext context)
             : base(options, logger, encoder, clock)
         {
             _context = context;

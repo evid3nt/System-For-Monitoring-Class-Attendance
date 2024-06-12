@@ -1,0 +1,13 @@
+.toolbar-link {
+    padding: 10px 20px; /* Dodajemo odgovarajući padding */
+    margin-right: 20px; /* Dodajemo razmak između linkova */
+    color: white; /* Boja teksta */
+    text-decoration: none; /* Uklanjamo podvučenost linkova */
+    cursor: pointer; /* Postavljamo kursor na pokazivač da označimo da su elementi klikabilni */
+    background-color: rgba(0, 0, 0, 0.2); /* Tamnija boja pozadine */
+    border-radius: 5px; /* Dodajemo zaobljenje rubova */
+  }
+  
+  .toolbar-link:hover {
+    text-decoration: underline; /* Dodajemo podvučenost tekstu kada je link hoveran */
+  }

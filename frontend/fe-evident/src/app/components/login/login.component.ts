@@ -45,18 +45,16 @@ export class LoginComponent implements OnInit{
         (response: any) => {
           // Prikazi obavijest o uspesnoj prijavi
           this.snackBar.open('Login successful', 'Close', {
-            duration: 3000, // trajanje obavijesti u milisekundama
+            duration: 3000, 
           });
           this.dataService.setUserData(response);
           this.router.navigate(['/calendar']);
-          // Implementacija daljih koraka nakon uspesne prijave
         },
         (error: any) => {
           // Prikazi obavijest o neuspesnoj prijavi
           this.snackBar.open('Login failed. Please check your credentials.', 'Close', {
             duration: 3000, // trajanje obavijesti u milisekundama
           });
-          // Implementacija daljih koraka nakon neuspesne prijave
         }
       );
     }

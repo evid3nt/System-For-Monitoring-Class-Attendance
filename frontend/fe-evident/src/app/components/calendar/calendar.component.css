@@ -1,21 +1,8 @@
-/* Container za kalendar i događaje */
-.calendar-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin: 0 20px;
-    height: 10vh; /* Visina kontejnera za kalendar i događaje */
+ mat-calendar {
+    transform: scale(0.95); /* Smanjuje veličinu kalendara */
+    transform-origin: top left; /* Postavlja točku skaliranja */
   }
-  
-  /* Wrapper za kalendar */
-  .calendar-wrapper {
-    flex: 3; /* Kalendar zauzima 3/4 prostora */
-    margin-right: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sjena za bolji izgled */
-    overflow: auto;
-  }
+
 
  /* Container za kalendar i događaje */
 .calendar-container {
@@ -23,47 +10,19 @@
     justify-content: space-between;
     align-items: flex-start;
     margin: 0 20px;
-    height: 80vh; /* Visina kontejnera za kalendar i događaje */
+    height: 60vh; /* Visina kontejnera za kalendar i događaje */
   }
   
-  /* Wrapper za kalendar */
   .calendar-wrapper {
-    flex: 3; /* Kalendar zauzima 3/4 prostora */
+    flex: 2; 
     margin-right: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sjena za bolji izgled */
-    height: 100%; /* Ispuni cijeli prostor roditelja */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+    height: 140%;
     overflow: auto;
   }
 
-  /* Stilizacija kalendarskih ćelija */
-  .mat-calendar-body .mat-calendar-body-cell {
-    padding: 0; /* Ukloni padding */
-    margin: 0; /* Ukloni margin */
-    width: 100%; /* Ispuni cijelu ćeliju */
-    height: 100%; /* Ispuni cijelu ćeliju */
-    box-sizing: border-box; /* Uključi padding i border u dimenzije */
-  }
-  
-  .mat-calendar-body .mat-calendar-body-cell-content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.75rem; /* Smanji veličinu fonta */
-    width: 100%; /* Ispuni cijelu ćeliju */
-    height: 100%; /* Ispuni cijelu ćeliju */
-    box-sizing: border-box; /* Uključi padding i border u dimenzije */
-  }
-  
-  /* Dodatni stilovi za bolju vidljivost */
-  .mat-calendar-body-cell-content {
-    padding: 2px; /* Ograniči padding */
-    margin: auto; /* Centriraj ćeliju */
-    height: 2rem; /* Visina ćelije */
-    width: 2rem; /* Širina ćelije */
-    border-radius: 50%; /* Zaokruži ćelije */
-  }
   
   /* Stilizacija za karticu s događajima */
   .events-container {
@@ -179,21 +138,73 @@
       justify-content: space-between;
       align-items: center;
     }
-    .delete-button {
-      background-color: #f44336; /* Crvena boja */
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      border-radius: 4px;
+    .styled-table {
+      width: 100%;
+      border-collapse: collapse; /* Use collapse to avoid gaps */
     }
     
-    .delete-button:hover {
-      background-color: #d32f2f; /* Tamnocrvena boja na hover */
+     .styled-table th {
+      text-align: left;
+      font-size: 20px;
+    }
+    .styled-table td {
+      text-align: left;
+      font-size: 20px;
+    }
+    .styled-table th {
+      background-color: #f2f2f2;
+    } 
+    
+    .styled-table tbody tr {
+      background-color: #ffffff;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     }
     
+    .styled-table tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+
+  .delete-button {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .toolbar-link {
+    padding: 10px 20px; /* Dodajemo odgovarajući padding */
+    margin-right: 20px; /* Dodajemo razmak između linkova */
+    color: white; /* Boja teksta */
+    text-decoration: none; /* Uklanjamo podvučenost linkova */
+    cursor: pointer; /* Postavljamo kursor na pokazivač da označimo da su elementi klikabilni */
+    background-color: rgba(0, 0, 0, 0.2); /* Tamnija boja pozadine */
+    border-radius: 5px; /* Dodajemo zaobljenje rubova */
+  }
+  
+  .toolbar-link:hover {
+    text-decoration: underline; /* Dodajemo podvučenost tekstu kada je link hoveran */
+  }
+  .delete-button:hover {
+    background-color: #ff1a1a;
+  }
+  .event-row.event-header {
+    background-color: #f2f2f2; /* Boja pozadine headera */
+    font-weight: bold; /* Podebljan font za naglašavanje */
+  }
+  
+  .event-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Razmak između redova */
+  }
+  
+  .event-row {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .event-cell {
+    flex: 1;
+    padding: 10px 15px;
+    border: 1px solid #ccc; /* Dodajte rubove za svaku ćeliju */
+  }

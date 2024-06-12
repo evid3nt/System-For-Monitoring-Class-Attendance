@@ -1,12 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
 
 namespace be_evid3nt.Models
 {
-    public class UsersCourse
+    public partial class UsersCourse
     {
-        [Key]
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
         public Guid? UserId { get; set; }
         public Guid? CourseId { get; set; }
+
+        public virtual Course? Course { get; set; }
+        public virtual User? User { get; set; }
     }
 }

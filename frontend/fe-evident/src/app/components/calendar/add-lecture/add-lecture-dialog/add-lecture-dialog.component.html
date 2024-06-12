@@ -18,7 +18,7 @@
         <div class="form-group">
           <label for="courseId" style="margin-bottom:10px">Course:</label>
           <select formControlName="courseId" id="courseId" class="form-control" required>
-            <option *ngFor="let course of courses" [value]="course">{{ course }}</option>
+            <option *ngFor="let course of courses" [value]="course.id">{{ course.courseName }}</option>
           </select>
           <div *ngIf="lectureForm.get('courseId')?.touched && lectureForm.get('courseId')?.errors?.['required']" class="error-message">
            Course is required.
@@ -27,7 +27,7 @@
         <div class="form-group">
           <label for="classroomId" style="margin-bottom:10px">Classroom:</label>
           <select formControlName="classroomId" id="classroomId" class="form-control" required>
-            <option *ngFor="let classroom of classrooms" [value]="classroom">{{ classroom }}</option>
+            <option *ngFor="let classroom of classrooms" [value]="classroom.id">{{ classroom.classroomName }}</option>
           </select>
           <div *ngIf="lectureForm.get('classroomId')?.touched && lectureForm.get('classroomId')?.errors?.['required']" class="error-message">
             Course is required.

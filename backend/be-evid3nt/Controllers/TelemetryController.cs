@@ -10,9 +10,9 @@ namespace be_evid3nt.Controllers
     [ApiController]
     public class TelemetryController : ControllerBase
     {
-        private readonly MyDbContext _context;
+        private readonly EvidentContext _context;
 
-        public TelemetryController(MyDbContext context)
+        public TelemetryController(EvidentContext context)
         {
             _context = context;
         }
