@@ -2,13 +2,16 @@
   <mat-toolbar color="primary" style="margin-bottom: 50px">
     <a class="toolbar-link" (click)="redirectToLectureScheduler()">Lecture scheduler</a>
     <a class="toolbar-link" (click)="redirectToAttendance()">Attendance</a>
-    <div class="authentication-button" (click)="presenceChange()">{{!userData ? 'Login' : 'Logout'}}</div>
+    <div class="authentication-button" (click)="handleAuthenthication()">{{!userData ? 'Login' : 'Logout'}}</div>
   </mat-toolbar>
 </nav>
 
 <div class="table-container">
   <div *ngIf="userData.userRole != 2">
-    PROFESSOR
+    PROFESSOR LECTURES:
+    <div *ngFor="let course of courses">
+      {{ course?.courseName }}
+    </div>
   </div>
   <div class="events-container">
     <div class="event-row event-header">

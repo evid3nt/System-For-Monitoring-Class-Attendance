@@ -45,6 +45,26 @@ namespace be_evid3nt.Controllers
             return user;
         }
 
+        [HttpGet("students/{professorId}")]
+        public List<User> GetStudentsByProfessor(Guid professorId)
+        {
+            Console.WriteLine(professorId);
+            var coursesTaughtByProfessor = _context.Lectures
+                .Include(a => a.Course).ThenInclude(b => b.UserCourses).ThenInclude(c => c.User)
+                .Where(l => l.Course.UserCourses.Any(uc => uc.UserId == professorId && uc.User.UserRole == UserRole.Teacher))
+                .Select(l => l.CourseId)
+                .Distinct();
+
+            var students = _context.UsersCourses
+                .Include(a => a.User)
+                .Where(uc => coursesTaughtByProfessor.Contains(uc.CourseId) && uc.User.UserRole == UserRole.Student)
+                .Select(uc => uc.User)
+                .Distinct()
+                .ToList();
+
+            return students;
+        }
+
         [HttpPost]
         public async Task<ActionResult<User>> PostUser(UserDTO userDto)
         {
