@@ -11,7 +11,7 @@
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
 WiFiUDP udpSocket;
-NTPClient ntpClient(udpSocket, "pool.ntp.org", CET_OFFSET);
+NTPClient ntpClient(udpSocket, "pool.ntp.org", CET_OFFSET, 60000);
  
 time_t milliseconds;
 
@@ -126,8 +126,8 @@ void loop() {
     StaticJsonDocument<300> JSONbuffer;
     JsonObject JSONencoder = JSONbuffer.to<JsonObject>();
 
-    JSONencoder["id"] = nuidStr;
-    JSONencoder["ts"] = currentMillis;
+    JSONencoder["cardId"] = nuidStr;
+    JSONencoder["classroom"] = CLASSROOM;
 
     char JSONmessageBuffer[300];
     serializeJson(JSONencoder, JSONmessageBuffer);
