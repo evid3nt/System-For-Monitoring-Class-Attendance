@@ -1,10 +1,9 @@
+/* General styles */
 mat-calendar {
   transform: scale(0.95); /* Smanjuje veličinu kalendara */
   transform-origin: top left; /* Postavlja točku skaliranja */
 }
 
-
-/* Container za kalendar i događaje */
 .calendar-container {
   display: flex;
   justify-content: space-between;
@@ -23,15 +22,12 @@ mat-calendar {
   overflow: auto;
 }
 
-
-/* Stilizacija za karticu s događajima */
 .events-container {
   flex: 1; /* Lista događaja zauzima 1/4 prostora */
   overflow-y: auto; /* Omogući scroll ako ima puno događaja */
   max-height: 80vh; /* Ograniči visinu kako bi odgovaralo kontejneru */
 }
 
-/* Kartica s događajima */
 mat-card {
   width: 100%;
   background-color: #fff;
@@ -39,7 +35,6 @@ mat-card {
   margin-bottom: 20px; /* Odmak između kartica */
 }
 
-/* Kartica naslova */
 mat-card-title {
   background-color: #007bff;
   color: #fff;
@@ -48,12 +43,10 @@ mat-card-title {
   border-top-right-radius: 5px;
 }
 
-/* Kartica sadržaja */
 mat-card-content {
   padding: 20px;
 }
 
-/* Stilizacija događaja */
 .event-title {
   font-size: 0.9rem;
   color: #fff;
@@ -63,7 +56,6 @@ mat-card-content {
   margin-top: 4px;
 }
 
-/* Stilizacija događaja u kalendaru */
 .example-event {
   background-color: #ffd700; /* Boja za event */
   border-radius: 50%;
@@ -76,93 +68,44 @@ mat-card-content {
   font-size: 0.75rem; /* Smanji font za bolji izgled */
 }
 
-
-/* Stilizacija za karticu s događajima */
-.events-container {
-  flex: 1; /* Lista događaja zauzima 1/4 prostora */
-  overflow-y: auto; /* Omogući scroll ako ima puno događaja */
-  max-height: 80vh; /* Ograniči visinu kako bi odgovaralo kontejneru */
+.add-lecture-button {
+  background-color: transparent;
+  color: black; /* Button text color */
 }
 
-/* Kartica s događajima */
-mat-card {
+.title-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.styled-table {
   width: 100%;
-  background-color: #fff;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px; /* Odmak između kartica */
+  border-collapse: collapse; /* Use collapse to avoid gaps */
 }
 
-/* Kartica naslova */
-mat-card-title {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+.styled-table th {
+  text-align: left;
+  font-size: 20px;
 }
 
-/* Kartica sadržaja */
-mat-card-content {
-  padding: 20px;
+.styled-table td {
+  text-align: left;
+  font-size: 20px;
 }
 
-/* Stilizacija događaja */
-.event-title {
-  font-size: 0.9rem;
-  color: #fff;
-  background-color: #007bff;
-  padding: 4px 8px;
-  border-radius: 3px;
-  margin-top: 4px;
+.styled-table th {
+  background-color: #f2f2f2;
+} 
+
+.styled-table tbody tr {
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Stilizacija događaja u kalendaru */
-.example-event {
-  background-color: #ffd700; /* Boja za event */
-  border-radius: 50%;
-  display: inline-block;
-  width: 1.5rem; /* Veličina event markera */
-  height: 1.5rem; /* Veličina event markera */
-  line-height: 1.5rem; /* Centriraj tekst vertikalno */
-  text-align: center; /* Centriraj tekst horizontalno */
-  color: white;
-  font-size: 0.75rem; /* Smanji font za bolji izgled */
+.styled-table tbody tr:hover {
+  background-color: #f9f9f9;
 }
-  .add-lecture-button {
-    background-color: transparent;
-    color: black; /* Button text color */
-  }
-  
-  .title-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .styled-table {
-    width: 100%;
-    border-collapse: collapse; /* Use collapse to avoid gaps */
-  }
-  
-   .styled-table th {
-    text-align: left;
-    font-size: 20px;
-  }
-  .styled-table td {
-    text-align: left;
-    font-size: 20px;
-  }
-  .styled-table th {
-    background-color: #f2f2f2;
-  } 
-  
-  .styled-table tbody tr {
-    background-color: #ffffff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .styled-table tbody tr:hover {
-    background-color: #f9f9f9;
-  }
 
 .delete-button {
   background-color: #ff4d4d;
@@ -171,6 +114,7 @@ mat-card-content {
   padding: 5px 10px;
   cursor: pointer;
 }
+
 .toolbar-link {
   padding: 10px 20px; /* Dodajemo odgovarajući padding */
   margin-right: 20px; /* Dodajemo razmak između linkova */
@@ -184,9 +128,11 @@ mat-card-content {
 .toolbar-link:hover {
   text-decoration: underline; /* Dodajemo podvučenost tekstu kada je link hoveran */
 }
+
 .delete-button:hover {
   background-color: #ff1a1a;
 }
+
 .event-row.event-header {
   background-color: #f2f2f2; /* Boja pozadine headera */
   font-weight: bold; /* Podebljan font za naglašavanje */
@@ -207,4 +153,19 @@ mat-card-content {
   flex: 1;
   padding: 10px 15px;
   border: 1px solid #ccc; /* Dodajte rubove za svaku ćeliju */
+}
+
+/* Style for authentication button */
+.authentication-button {
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  margin-left: auto; /* Push the button to the right */
+}
+
+.authentication-button:hover {
+  text-decoration: underline;
 }

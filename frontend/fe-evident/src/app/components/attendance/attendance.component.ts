@@ -65,4 +65,9 @@ export class AttendanceComponent {
   redirectToAttendance() {
     this.router.navigate(['attendance']);
   }
+  
+  presenceChange() {
+    this.dataService.clearUserData();
+    this.router.navigate(['login']);
+  }
 }

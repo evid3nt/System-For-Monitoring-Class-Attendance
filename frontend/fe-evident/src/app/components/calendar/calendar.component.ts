@@ -86,6 +86,10 @@ export class CalendarComponent implements OnInit {
     this.router.navigate(['attendance']);
   }
 
+  presenceChange() {
+    this.dataService.clearUserData();
+    this.router.navigate(['login']);
+  }
 
   deleteLecture(lectureId: string): void {
     this.lectureService.deleteLecture(lectureId).subscribe(

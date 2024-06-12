@@ -2,6 +2,7 @@
   <mat-toolbar color="primary" style="margin-bottom: 50px">
     <a class="toolbar-link" (click)="redirectToLectureScheduler()">Lecture scheduler</a>
     <a class="toolbar-link" (click)="redirectToAttendance()">Attendance</a>
+    <div class="authentication-button" (click)="presenceChange()">{{!userData ? 'Login' : 'Logout'}}</div>
   </mat-toolbar>
 </nav>
 
