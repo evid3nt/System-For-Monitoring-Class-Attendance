@@ -45,6 +45,9 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.selectedDate = new Date(); // Postavljanje trenutnog datuma
     this.userData = this.dataService.getUserData();
+    if (!this.userData) {
+      this.router.navigate(['login']);
+    }
     this.loadEvents();
     
   }

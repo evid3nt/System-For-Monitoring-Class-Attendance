@@ -5,51 +5,44 @@
   </mat-toolbar>
 </nav>
 
-<div *ngIf="userData.userRole == 2">
-  <div class="events-container">
-    <div class="event-row event-header">
-      <div class="event-cell">Course</div>
-      <div class="event-cell">Classroom</div>
-      <div class="event-cell">Start</div>
-      <div class="event-cell">End</div>
-      <div class="event-cell">Present</div>
-    </div>
-    <div *ngFor="let event of events" class="event-row">
-      <div class="event-cell">
-        {{ event.course?.courseName }}</div>
-      <div class="event-cell">
-        {{ event.classroom?.classroomName }}</div>
-      <div class="event-cell">
-        {{ event.lectureStart?.toString()?.substring(11, 16) }}</div>
-      <div class="event-cell">
-        {{ event.lectureEnd?.toString()?.substring(11, 16) }}</div>
-      <div class="event-cell">
-        <mat-icon 
-        *ngIf="present===true"
-        [ngStyle]="{'color':'green'}"
-        aria-hidden="false"
-        aria-label="Example home icon" 
-        fontIcon="done"></mat-icon>  
-        <mat-icon 
-        *ngIf="present===false"
-        [ngStyle]="{'color':'red'}" 
-        aria-hidden="false" 
-        aria-label="Example home icon" 
-        fontIcon="cancel"></mat-icon>  
+<div class="class">
+  <div *ngIf="userData.userRole != 2">
+    PROFESSOR
+  </div>
+  <div>
+    <div class="events-container">
+      <div class="event-row event-header">
+        <div class="event-cell">Course</div>
+        <div class="event-cell">Classroom</div>
+        <div class="event-cell">Start</div>
+        <div class="event-cell">End</div>
+        <div class="event-cell">Present</div>
+      </div>
+      <div *ngFor="let event of events" class="event-row">
+        <div class="event-cell">
+          {{ event.course?.courseName }}</div>
+        <div class="event-cell">
+          {{ event.classroom?.classroomName }}</div>
+        <div class="event-cell">
+          {{ event.lectureStart?.toString()?.substring(11, 16) }}</div>
+        <div class="event-cell">
+          {{ event.lectureEnd?.toString()?.substring(11, 16) }}</div>
+        <div class="event-cell">
+          <mat-icon 
+          *ngIf="present===true"
+          [ngStyle]="{'color':'green'}"
+          aria-hidden="false"
+          aria-label="Example home icon" 
+          fontIcon="done"></mat-icon>  
+          <mat-icon 
+          *ngIf="present===false"
+          [ngStyle]="{'color':'red'}" 
+          aria-hidden="false" 
+          aria-label="Example home icon" 
+          fontIcon="cancel"></mat-icon>  
+        </div>
       </div>
     </div>
   </div>
-
-</div>
-
-<div *ngIf="userData.userRole == 1">
-  <div class="events-container">
-    <div class="event-row event-header">
-      FOR PROFESSOR
-      <div class="event-cell">Course</div>
-      <div class="event-cell">Start</div>
-      <div class="event-cell">End</div>
-      <div class="event-cell">Present</div>
-    </div>
-  </div>
+  
 </div>

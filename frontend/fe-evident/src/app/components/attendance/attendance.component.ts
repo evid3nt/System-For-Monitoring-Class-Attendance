@@ -31,15 +31,33 @@ export class AttendanceComponent {
   }
 
   ngOnInit(): void {
-    this.userData = this.dataService.getUserData();
-    this.loadEvents(this.userData.id);
+    // Provjeri je li korisnik ulogiran, ako nije, posalji ga na login
+    this.userData = this.dataService.getUserData()
+    if (!this.userData) {
+      this.router.navigate(['login']);
+    }
+    this.loadEvents(this.userData.id, this.userData.role);
+    // this.checkAttendance(this.userData.id);
   }
 
-  loadEvents(id:string) {
+  loadEvents(id:string, role:number) {
     this.lectureService.getLecturesForUser(this.userData.id).subscribe((events) => {
       this.events=events
     });
+
+    // Ako se radi o profesoru, filtriraj evente tako da se vrate samo predmeti koje predaje
+    if (role !== 2) {
+      // this.events.filter((event) => {
+      //   return event.courseId === this.userData.
+      // })
+    }
   }
+
+  // checkAttendance(id: string) {
+  //   this.events.forEach((event) => {
+  //     if (this.userData.)
+  //   })
+  // }
   redirectToLectureScheduler() {
     this.router.navigate(['calendar']);
   }
