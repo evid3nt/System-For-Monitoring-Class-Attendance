@@ -40,15 +40,15 @@ export class RegisterComponent {
         formValues.password
       );
       this.userService.register(user).subscribe(
-        (response: any) => {
+        () => {
           this.snackBar.open('User registered successfully', 'Close', {
-            duration: 3000, // trajanje obavijesti u milisekundama
+            duration: 3000, 
           });
           this.router.navigate(['/login']);
         },
-        (error: any) => {
+        () => {
           this.snackBar.open('Error registering user', 'Close', {
-            duration: 3000, // trajanje obavijesti u milisekundama
+            duration: 3000,
           });
         }
       );

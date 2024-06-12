@@ -1,46 +1,46 @@
-<mat-toolbar color="primary" style="margin-bottom:50px">
-    <span>Lecture scheduler</span>
+<nav>
+  <mat-toolbar color="primary" style="margin-bottom: 50px">
+    <a class="toolbar-link" (click)="redirectToLectureScheduler()">Lecture scheduler</a>
+    <a class="toolbar-link" (click)="redirectToAttendance()">Attendance</a>
   </mat-toolbar>
-  
-  <div class="calendar-container">
-    <div class="calendar-wrapper">
-      <mat-calendar [selected]="selectedDate" (selectedChange)="dateSelected($event)" #calendar>
-      </mat-calendar>
-    </div>
-    <div class="events-container">
-  <mat-card *ngIf="selectedDate">
-    <mat-card-title>{{ selectedDate | date }} <button *ngIf="this.userData.userRole !== 0" mat-button class="add-lecture-button" (click)="openAddLectureDialog()">Dodaj predavanje</button></mat-card-title>
-  
-    <mat-card-content>
-      <table>
-        <thead>
-          <tr>
-            <th>Ime predmeta</th>
-            <th>Učionica</th>
-            <th>Početak</th>
-            <th>Kraj</th>
-            <th>Akcija</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let event of events">
-            <td *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))"
-            >{{ event.course?.courseName }}</td>
-            <td *ngIf="selectedDate.toISOString().substring(0, selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))"
-            >{{ event.classroom?.classroomName }}</td>
-            <td *ngIf="selectedDate.toISOString().substring(0, selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))"
-            >{{ event.lectureStart?.toString()?.substring(11, 16) }}</td>
-            <td *ngIf="selectedDate.toISOString().substring(0, selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))"
-            >{{ event.lectureEnd?.toString()?.substring(11, 16) }}</td>
-            <td>
-              <button *ngIf="event.id && selectedDate.toISOString().substring(0, selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))"
-              class="delete-button" (click)="deleteLecture(event.id)">Obriši</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </mat-card-content>
-  </mat-card>
-</div>
+</nav>
+
+<div class="calendar-container">
+  <div class="calendar-wrapper">
+    <mat-calendar [selected]="selectedDate" (selectedChange)="dateSelected($event)" #calendar>
+    </mat-calendar>
   </div>
-  
+  <div class="events-container">
+    <mat-card *ngIf="selectedDate">
+      <mat-card-title>{{ selectedDate | date }} <button *ngIf="this.userData.userRole !== 0" mat-button
+          class="add-lecture-button" (click)="openAddLectureDialog()">Add lecture</button></mat-card-title>
+
+      <div class="event-row event-header">
+        <div class="event-cell" >Course</div>
+        <div class="event-cell">Classroom</div>
+        <div class="event-cell">Start</div>
+        <div class="event-cell">End</div>
+        <div class="event-cell">Action</div>
+      </div>
+
+      <div *ngFor="let event of events" class="event-row">
+        <div class="event-cell"
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
+          {{ event.course?.courseName }}</div>
+        <div class="event-cell"
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
+          {{ event.classroom?.classroomName }}</div>
+        <div class="event-cell"
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
+          {{ event.lectureStart?.toString()?.substring(11, 16) }}</div>
+        <div class="event-cell"
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
+          {{ event.lectureEnd?.toString()?.substring(11, 16) }}</div>
+        <div class="event-cell"
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
+          <button *ngIf="event.id" class="delete-button" (click)="deleteLecture(event.id)">Obriši</button>
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>

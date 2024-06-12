@@ -59,6 +59,7 @@ namespace be_evid3nt.Controllers
                 .Include(a => a.Classroom)
                 .Include(b => b.Course)
                 .Where(l => courseIds.Contains(l.CourseId))
+                .OrderBy(c => c.LectureStart)
                 .ToListAsync();
 
             if (lectures == null || !lectures.Any())

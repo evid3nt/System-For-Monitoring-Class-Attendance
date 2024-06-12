@@ -77,8 +77,6 @@ export class AddLectureDialogComponent implements OnInit {
       lectureEndDate.setHours(endHours);
       lectureEndDate.setMinutes(endMinutes);
 
-      // Kreiramo novi LectureDTO objekt koristeći kombinovani datum i vrijeme
-
       this.lectureForm.controls['lectureStart'].patchValue(lectureStartDate.toISOString());
       this.lectureForm.controls['lectureEnd'].patchValue(lectureEndDate.toISOString());
 
@@ -87,6 +85,11 @@ export class AddLectureDialogComponent implements OnInit {
           duration: 3000, // trajanje obavijesti u milisekundama
         });
         this.dialogRef.close(result);
+      },
+      () => {
+        this.snackBar.open('Error creating lecture', 'Close', {
+          duration: 3000,
+        });
       })
 
     }
