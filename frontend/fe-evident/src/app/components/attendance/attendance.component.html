@@ -7,11 +7,14 @@
 </nav>
 
 <div class="table-container">
-  <div *ngIf="userData.userRole != 2">
-    PROFESSOR LECTURES:
-    <div *ngFor="let course of courses">
-      {{ course?.courseName }}
-    </div>
+  <div *ngIf="userData.userRole !== 2">
+    <mat-form-field>
+      <mat-label>Students</mat-label>
+      <mat-select (selectionChange)="handleStudentSelection($event)">
+        <mat-option *ngFor="let student of students" [value]="student.id">{{student.firstName + " " +
+          student.lastName}}</mat-option>
+      </mat-select>
+    </mat-form-field>
   </div>
   <div class="events-container">
     <div class="event-row event-header">
@@ -21,20 +24,19 @@
       <div class="event-cell">End</div>
       <div class="event-cell">Present</div>
     </div>
-    <div *ngFor="let event of events" class="event-row">
+    <div *ngFor="let telemetry of telemetries" class="event-row">
       <div class="event-cell">
-        {{ event.course?.courseName }}</div>
+        {{ telemetry?.courseName }}</div>
       <div class="event-cell">
-        {{ event.classroom?.classroomName }}</div>
+        {{ telemetry?.classroomName }}</div>
       <div class="event-cell">
-        {{ event.lectureStart?.toString()?.substring(11, 16) }}</div>
+        {{ telemetry.lectureStart?.toString()?.substring(11, 16) }}</div>
       <div class="event-cell">
-        {{ event.lectureEnd?.toString()?.substring(11, 16) }}</div>
+        {{ telemetry.lectureEnd?.toString()?.substring(11, 16) }}</div>
       <div class="event-cell">
-        <mat-icon [ngStyle]="present === true ? {'color':'green'} : {'color':'red'}" aria-hidden="false"
-          aria-label="Example home icon" [fontIcon]="present === true ? 'done' : 'cancel'"></mat-icon>
+        <mat-icon [ngStyle]="telemetry?.attendance ? {'color':'green'} : {'color':'red'}" aria-hidden="false"
+          [fontIcon]="telemetry?.attendance ? 'done' : 'cancel'"></mat-icon>
       </div>
     </div>
   </div>
-
 </div>
