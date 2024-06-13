@@ -4,13 +4,16 @@
 #include <WiFi.h>
 #include <ArduinoJson.h>
 #include <NTPClient.h>
+#include <time.h>
 #include <WiFiUdp.h>
 #include "config.h"
 
 WiFiClient wifiClient;
 PubSubClient mqttClient(wifiClient);
-WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "pool.ntp.org", CET_OFFSET, 60000);
+WiFiUDP udpSocket;
+NTPClient ntpClient(udpSocket, "pool.ntp.org", CET_OFFSET, 60000);
+ 
+time_t milliseconds;
 
 MFRC522 rfid(SS_PIN, RST_PIN);  // Instance of the class
 
@@ -38,7 +41,7 @@ void connectToMQTT(const char* clientId, const char* topic, int retryInterval, b
     Serial.printf("%s to MQTT ...\n", reconnecting ? "Reconnecting" : "Connecting");
 
     // Try to connect to MQTT
-    if (mqttClient.connect(clientId)) {
+    if (mqttClient.connect(clientId, DEVICE_ACCESS_TOKEN, NULL)) {
       Serial.println("Connected to MQTT!");
     } else {
       Serial.printf("Failed (status code = %d)\n", mqttClient.state());
@@ -67,9 +70,8 @@ void setup() {
   connectToWiFi(WIFI_SSID, WIFI_PASSWORD, WIFI_RETRY_INTERVAL, false);
 
   // Setup MQTT
-  //mqttClient.setServer(MQTT_SERVER, MQTT_PORT);
-
-  //connectToMQTT(MQTT_CLIENT_ID, MQTT_CLASSROOM_TOPIC, MQTT_RETRY_INTERVAL, false);
+  mqttClient.setServer(MQTT_SERVER, MQTT_SERVER_PORT);
+  connectToMQTT(MQTT_CLIENT_ID, MQTT_CLASSROOM_TOPIC, MQTT_RETRY_INTERVAL, false);
 
   SPI.begin();  // Init SPI bus
   rfid.PCD_Init();  // Init MFRC522
@@ -82,21 +84,21 @@ void setup() {
   Serial.print(F("Using the following key:"));
   printHex(key.keyByte, MFRC522::MF_KEY_SIZE);
 
-  timeClient.begin();
 }
 
 void loop() {
 
-  timeClient.update();
   // Check WiFi
   if (WiFi.status() != WL_CONNECTED) {
     connectToWiFi(WIFI_SSID, WIFI_PASSWORD, WIFI_RETRY_INTERVAL, true);
   }
 
   // Check MQTT
-  // if (!mqttClient.connected()) {
-  //   connectToMQTT(MQTT_CLIENT_ID, MQTT_CLASSROOM_TOPIC, MQTT_RETRY_INTERVAL, true);
-  // }
+  //Serial.print(mqttClient.connected());
+  // 0 - connected
+  if (mqttClient.connected() != 0) {
+    connectToMQTT(MQTT_CLIENT_ID, MQTT_CLASSROOM_TOPIC, MQTT_RETRY_INTERVAL, true);
+  }
 
   // Reset the loop if no new card present on the sensor/reader. This saves the entire process when idle.
   if (!rfid.PICC_IsNewCardPresent())
@@ -117,14 +119,15 @@ void loop() {
   }
 
   if (rfid.uid.uidByte[0] != nuidPICC[0] || rfid.uid.uidByte[1] != nuidPICC[1] || rfid.uid.uidByte[2] != nuidPICC[2] || rfid.uid.uidByte[3] != nuidPICC[3]) {
+    //milliseconds = time(NULL) * 1000;
+    unsigned long currentMillis = millis();
     String nuidStr = nuidToString(rfid.uid.uidByte);
-    unsigned long currentTime = timeClient.getEpochTime();
 
     StaticJsonDocument<300> JSONbuffer;
     JsonObject JSONencoder = JSONbuffer.to<JsonObject>();
 
-    JSONencoder["id"] = nuidStr;
-    JSONencoder["ts"] = currentTime;
+    JSONencoder["cardId"] = nuidStr;
+    JSONencoder["classroom"] = CLASSROOM;
 
     char JSONmessageBuffer[300];
     serializeJson(JSONencoder, JSONmessageBuffer);
