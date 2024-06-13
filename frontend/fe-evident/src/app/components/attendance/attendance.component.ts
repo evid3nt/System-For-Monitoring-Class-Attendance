@@ -44,27 +44,19 @@ export class AttendanceComponent {
   }
 
   ngOnInit(): void {
-    // Provjeri je li korisnik ulogiran, ako nije, posalji ga na login
     this.userData = this.dataService.getUserData()
     if (!this.userData) {
       this.router.navigate(['login']);
     }
     this.loadEvents(this.userData.id, this.userData.userRole);
-    // this.checkAttendance(this.userData.id);
   }
 
   loadEvents(id: string, role: number) {
-
-    // Ako se radi o profesoru: this.lectureService.getLecturesForUser(dropdown_value)...
     if (role === 2) {
       this.telemetryService.getUserTelemetries(id).subscribe((telemetries) => {
         this.telemetries = telemetries;
       }
     );
-      // this.lectureService.getLecturesForUser(this.userData.id).subscribe((events) => {
-      //   this.events = events;
-      // });
-
     }
     else {
       this.userService.getStudents(id).subscribe((students) => {
@@ -72,13 +64,8 @@ export class AttendanceComponent {
         console.log("STUDENTS: ", this.students);
       });
     }
-    // Ako se radi o profesoru, filtriraj evente tako da se vrate samo predmeti koje predaje
-    if (role !== 2) {
-      // this.events.filter((event) => {
-      //   return event.courseId === this.userData.
-      // })
-    }
   }
+
   redirectToLectureScheduler() {
     this.router.navigate(['calendar']);
   }
@@ -93,13 +80,15 @@ export class AttendanceComponent {
   }
 
   handleStudentSelection(event: any): void {
-    console.log("SELECTION VALUE: ", event.value);
     this.lectureService.getLecturesForUser(event.value).subscribe((events) => {
       this.events = events;
     });
     this.telemetryService.getUserTelemetries(event.value).subscribe((telemetries) => {
       this.telemetries = telemetries;
-      console.log("TELEMETRIES: ", telemetries);
+    })
+    this.telemetries.forEach((telemetry) => {
+      telemetry.lectureStart ? new Date(telemetry.lectureStart.setHours(telemetry.lectureStart.getHours() + 2)) : undefined;
+      telemetry.lectureEnd ? telemetry.lectureEnd?.setHours(telemetry.lectureEnd.getHours() + 2) : undefined;
     })
   }
 }

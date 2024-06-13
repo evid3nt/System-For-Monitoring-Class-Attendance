@@ -55,7 +55,6 @@ export class CalendarComponent implements OnInit {
   loadEvents() {
     this.lectureService.getLecturesForUser(this.userData.id).subscribe((events) => {
       this.events=events
-      
     });
   }
 
