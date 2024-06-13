@@ -39,7 +39,7 @@
           {{ event.lectureEnd?.toISOString()?.substring(11, 16) }}</div>
         <div class="event-cell"
           *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === 
-          event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T')) 
+          event.lectureStart?.toISOString()?.substring(0, event.lectureStart?.toISOString()?.indexOf('T')) 
           && this.userData.userRole !== 2">
           <button *ngIf="event.id && this.userData.userRole !== 2" class="delete-button" (click)="deleteLecture(event.id)">Obriši</button>
         </div>
