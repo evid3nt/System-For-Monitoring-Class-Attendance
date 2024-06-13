@@ -18,4 +18,8 @@ export class UserService {
   getCurrentUser(): Observable<any>{
     return this.http.get<any>(`${this.apiUrl}/current`)
   }
+
+  getStudents(professorId: string): Observable<any>{
+    return this.http.get<any>(`${this.apiUrl}/students/${professorId}`)
+  }
 }

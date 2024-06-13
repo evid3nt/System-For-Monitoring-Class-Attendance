@@ -1,6 +1,45 @@
 <nav>
-    <mat-toolbar color="primary" style="margin-bottom: 50px">
-      <a class="toolbar-link" (click)="redirectToLectureScheduler()">Lecture scheduler</a>
-      <a class="toolbar-link" (click)="redirectToAttendance()">Attendance</a>
-    </mat-toolbar>
-  </nav>
+  <mat-toolbar color="primary" style="margin-bottom: 50px">
+    <a class="toolbar-link" (click)="redirectToLectureScheduler()">Lecture scheduler</a>
+    <a class="toolbar-link" (click)="redirectToAttendance()">Attendance</a>
+    <div class="authentication-button" (click)="handleAuthenthication()">{{!userData ? 'Login' : 'Logout'}}</div>
+  </mat-toolbar>
+</nav>
+
+<div class="table-container">
+  <div *ngIf="userData.userRole !== 2">
+    <mat-form-field>
+      <mat-label>Students</mat-label>
+      <mat-select (selectionChange)="handleStudentSelection($event)">
+        <mat-option *ngFor="let student of students" [value]="student.id">{{student.firstName + " " +
+          student.lastName}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="events-container">
+    <div class="event-row event-header">
+      <div class="event-cell">Course</div>
+      <div class="event-cell">Date</div>
+      <div class="event-cell">Classroom</div>
+      <div class="event-cell">Start</div>
+      <div class="event-cell">End</div>
+      <div class="event-cell">Was present</div>
+    </div>
+    <div *ngFor="let telemetry of telemetries" class="event-row">
+      <div class="event-cell">
+        {{ telemetry?.courseName }}</div>
+      <div class="event-cell">
+        {{ telemetry?.lectureStart | date }}</div>
+      <div class="event-cell">
+        {{ telemetry?.classroomName }}</div>
+      <div class="event-cell">
+        {{ telemetry.lectureStart?.toString()?.substring(11, 16) }}</div>
+      <div class="event-cell">
+        {{ telemetry.lectureEnd?.toString()?.substring(11, 16) }}</div>
+      <div class="event-cell">
+        <mat-icon [ngStyle]="telemetry?.attendance ? {'color':'green'} : {'color':'red'}" aria-hidden="false"
+          [fontIcon]="telemetry?.attendance ? 'done' : 'cancel'"></mat-icon>
+      </div>
+    </div>
+  </div>
+</div>

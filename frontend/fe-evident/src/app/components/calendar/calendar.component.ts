@@ -45,6 +45,9 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     this.selectedDate = new Date(); // Postavljanje trenutnog datuma
     this.userData = this.dataService.getUserData();
+    if (!this.userData) {
+      this.router.navigate(['login']);
+    }
     this.loadEvents();
     
   }
@@ -52,7 +55,6 @@ export class CalendarComponent implements OnInit {
   loadEvents() {
     this.lectureService.getLecturesForUser(this.userData.id).subscribe((events) => {
       this.events=events
-      
     });
   }
 
@@ -83,6 +85,10 @@ export class CalendarComponent implements OnInit {
     this.router.navigate(['attendance']);
   }
 
+  presenceChange() {
+    this.dataService.clearUserData();
+    this.router.navigate(['login']);
+  }
 
   deleteLecture(lectureId: string): void {
     this.lectureService.deleteLecture(lectureId).subscribe(
