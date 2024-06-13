@@ -61,7 +61,6 @@ export class AttendanceComponent {
     else {
       this.userService.getStudents(id).subscribe((students) => {
         this.students = students;
-        console.log("STUDENTS: ", this.students);
       });
     }
   }
@@ -86,9 +85,10 @@ export class AttendanceComponent {
     this.telemetryService.getUserTelemetries(event.value).subscribe((telemetries) => {
       this.telemetries = telemetries;
     })
-    this.telemetries.forEach((telemetry) => {
-      telemetry.lectureStart ? new Date(telemetry.lectureStart.setHours(telemetry.lectureStart.getHours() + 2)) : undefined;
-      telemetry.lectureEnd ? telemetry.lectureEnd?.setHours(telemetry.lectureEnd.getHours() + 2) : undefined;
-    })
+    // console.log(this.telemetries  )
+    // this.telemetries.forEach((telemetry) => {
+    //   telemetry.lectureStart ? new Date(telemetry.lectureStart.setHours(telemetry.lectureStart.getHours() + 2)) : undefined;
+    //   telemetry.lectureEnd ? telemetry.lectureEnd?.setHours(telemetry.lectureEnd.getHours() + 2) : undefined;
+    // })
   }
 }
