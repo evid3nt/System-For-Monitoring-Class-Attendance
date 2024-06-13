@@ -1,20 +1,16 @@
 import { Component } from '@angular/core';
-import { LectureService } from '../../services/lecture.service';
-import { CourseService } from '../../services/course.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DataService } from '../../services/data.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { UserDTO } from '../../models/user.model';
 import { LectureDTO } from '../../models/lecture.model';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { CourseDto } from '../../models/course.model';
 import { UserService } from '../../services/user.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { TelemetryService } from '../../services/telemetry.service';
 import { TelemetryDTO } from '../../models/telemetry.model';
 @Component({
@@ -33,13 +29,11 @@ export class AttendanceComponent {
   telemetries: TelemetryDTO[] = [];
   present: boolean = false;
 
-  constructor(private lectureService: LectureService,
-    private courseService: CourseService,
+  constructor(
     private userService: UserService,
     private telemetryService: TelemetryService,
     public dialog: MatDialog,
     private dataService: DataService,
-    private snackBar: MatSnackBar,
     private router: Router) {
   }
 
@@ -54,9 +48,13 @@ export class AttendanceComponent {
   loadEvents(id: string, role: number) {
     if (role === 2) {
       this.telemetryService.getUserTelemetries(id).subscribe((telemetries) => {
-        this.telemetries = telemetries;
-      }
-    );
+        this.telemetries = telemetries.map((event: any) => {
+          let updatedEvent = { ...event };
+          updatedEvent.lectureStart = this.addHours(updatedEvent.lectureStart, 2);
+          updatedEvent.lectureEnd = this.addHours(updatedEvent.lectureEnd, 2);
+          return updatedEvent;
+        });
+      });
     }
     else {
       this.userService.getStudents(id).subscribe((students) => {
@@ -64,6 +62,13 @@ export class AttendanceComponent {
       });
     }
   }
+
+  addHours(dateString: Date, hours: number) {
+    let date = new Date(dateString);
+    date.setHours(date.getHours() + hours);
+    return date;
+}
+
 
   redirectToLectureScheduler() {
     this.router.navigate(['calendar']);
@@ -79,16 +84,13 @@ export class AttendanceComponent {
   }
 
   handleStudentSelection(event: any): void {
-    this.lectureService.getLecturesForUser(event.value).subscribe((events) => {
-      this.events = events;
-    });
     this.telemetryService.getUserTelemetries(event.value).subscribe((telemetries) => {
-      this.telemetries = telemetries;
+      this.telemetries = telemetries.map((event: any) => {
+        let updatedEvent = { ...event };
+        updatedEvent.lectureStart = this.addHours(updatedEvent.lectureStart, 2);
+        updatedEvent.lectureEnd = this.addHours(updatedEvent.lectureEnd, 2);
+        return updatedEvent;
+      });
     })
-    // console.log(this.telemetries  )
-    // this.telemetries.forEach((telemetry) => {
-    //   telemetry.lectureStart ? new Date(telemetry.lectureStart.setHours(telemetry.lectureStart.getHours() + 2)) : undefined;
-    //   telemetry.lectureEnd ? telemetry.lectureEnd?.setHours(telemetry.lectureEnd.getHours() + 2) : undefined;
-    // })
   }
 }

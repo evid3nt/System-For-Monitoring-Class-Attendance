@@ -26,17 +26,17 @@
 
       <div *ngFor="let event of events" class="event-row">
         <div class="event-cell"
-          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toISOString()?.substring(0, event.lectureStart?.toISOString()?.indexOf('T'))">
           {{ event.course?.courseName }}</div>
         <div class="event-cell"
-          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toISOString()?.substring(0, event.lectureStart?.toISOString()?.indexOf('T'))">
           {{ event.classroom?.classroomName }}</div>
         <div class="event-cell"
-          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
-          {{ event.lectureStart?.toString()?.substring(11, 16) }}</div>
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toISOString()?.substring(0, event.lectureStart?.toISOString()?.indexOf('T'))">
+          {{ event.lectureStart?.toISOString()?.substring(11, 16) }}</div>
         <div class="event-cell"
-          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T'))">
-          {{ event.lectureEnd?.toString()?.substring(11, 16) }}</div>
+          *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === event.lectureStart?.toISOString()?.substring(0, event.lectureStart?.toISOString()?.indexOf('T'))">
+          {{ event.lectureEnd?.toISOString()?.substring(11, 16) }}</div>
         <div class="event-cell"
           *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === 
           event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T')) 

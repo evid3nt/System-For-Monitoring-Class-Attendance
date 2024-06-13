@@ -54,9 +54,20 @@ export class CalendarComponent implements OnInit {
 
   loadEvents() {
     this.lectureService.getLecturesForUser(this.userData.id).subscribe((events) => {
-      this.events=events
+        this.events = events.map(event => {
+            let updatedEvent = {...event};
+            updatedEvent.lectureStart = this.addHours(updatedEvent.lectureStart, 2);
+            updatedEvent.lectureEnd = this.addHours(updatedEvent.lectureEnd, 2);
+            return updatedEvent;
+        });
     });
-  }
+}
+
+addHours(dateString: Date, hours: number) {
+    let date = new Date(dateString);
+    date.setHours(date.getHours() + hours);
+    return date;
+}
 
   dateSelected(date: Date) {
     date.setHours(date.getHours() + 2)
