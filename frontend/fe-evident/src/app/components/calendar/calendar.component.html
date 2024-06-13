@@ -41,7 +41,7 @@
           *ngIf="this.selectedDate.toISOString().substring(0, this.selectedDate.toISOString().indexOf('T')) === 
           event.lectureStart?.toString()?.substring(0, event.lectureStart?.toString()?.indexOf('T')) 
           && this.userData.userRole !== 2">
-          <button *ngIf="event.id" class="delete-button" (click)="deleteLecture(event.id)">Obriši</button>
+          <button *ngIf="event.id && this.userData.userRole !== 2" class="delete-button" (click)="deleteLecture(event.id)">Obriši</button>
         </div>
       </div>
     </mat-card>

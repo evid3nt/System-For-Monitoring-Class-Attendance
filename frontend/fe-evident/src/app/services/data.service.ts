@@ -6,9 +6,6 @@ import { Injectable } from '@angular/core';
 })
 export class DataService {
     setUserData(data: any) {
-      console.log("setuserdata")
-      console.log(data)
-      console.log(JSON.stringify(data))
       localStorage.setItem('userData', JSON.stringify(data));
     }
   

@@ -66,7 +66,7 @@ export class AddLectureDialogComponent implements OnInit {
       lectureStartDate.setHours(lectureStartDate.getHours());
       const lectureStartTime = formValues.lectureStart;
       const [startHours, startMinutes] = lectureStartTime.split(':').map(Number); // Razdvajamo sate i minute i pretvaramo ih u brojeve
-      lectureStartDate.setHours(startHours);
+      lectureStartDate.setHours(startHours + 2);
       lectureStartDate.setMinutes(startMinutes);
 
       // Kreiramo novi Date objekt koristeći datum iz roditeljske komponente i vrijeme iz forme
@@ -74,7 +74,7 @@ export class AddLectureDialogComponent implements OnInit {
       lectureEndDate.setHours(lectureEndDate.getHours());
       const lectureEndTime = formValues.lectureEnd;
       const [endHours, endMinutes] = lectureEndTime.split(':').map(Number); // Razdvajamo sate i minute i pretvaramo ih u brojeve
-      lectureEndDate.setHours(endHours);
+      lectureEndDate.setHours(endHours + 2);
       lectureEndDate.setMinutes(endMinutes);
 
       this.lectureForm.controls['lectureStart'].patchValue(lectureStartDate.toISOString());
