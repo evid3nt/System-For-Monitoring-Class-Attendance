@@ -52,6 +52,7 @@ export class AttendanceComponent {
   }
 
   loadEvents(id: string, role: number) {
+    debugger
     if (role === 2) {
       this.telemetryService.getUserTelemetries(id).subscribe((telemetries) => {
         this.telemetries = telemetries;
