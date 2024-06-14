@@ -33,9 +33,9 @@
       <div class="event-cell">
         {{ telemetry?.classroomName }}</div>
       <div class="event-cell">
-        {{ telemetry.lectureStart?.toString()?.substring(11, 16) }}</div>
+        {{ telemetry.lectureStart?.toISOString()?.substring(11, 16) }}</div>
       <div class="event-cell">
-        {{ telemetry.lectureEnd?.toString()?.substring(11, 16) }}</div>
+        {{ telemetry.lectureEnd?.toISOString()?.substring(11, 16) }}</div>
       <div class="event-cell">
         <mat-icon [ngStyle]="telemetry?.attendance ? {'color':'green'} : {'color':'red'}" aria-hidden="false"
           [fontIcon]="telemetry?.attendance ? 'done' : 'cancel'"></mat-icon>
